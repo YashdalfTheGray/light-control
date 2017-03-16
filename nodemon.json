@@ -1,0 +1,10 @@
+{
+    "ignore": [
+        "app/**",
+        "node_modules/**",
+        "public/**"
+    ],
+    "watch": [
+        "server/**"
+    ]
+}
