@@ -1,4 +1,5 @@
 require('dotenv').config();
+require('./init')('../admins.json');
 
 const express = require('express');
 const morgan = require('morgan');
@@ -6,6 +7,7 @@ const bodyParser = require('body-parser');
 const chalk = require('chalk');
 
 const { closeDb } = require('./db');
+const { registerUser } = require('./user');
 
 const port = process.env.PORT || process.argv[2] || 8080;
 const wrap = fn => (...args) => fn(...args).catch(args[2]);
@@ -21,8 +23,10 @@ app.get('/', (req, res) => {
     });
 });
 
+app.post('/users/register', wrap(registerUser));
+
 app.listen(port, () => console.log(`Server running on port ${chalk.green(port)}`));
 
-process.on('exit' () => {
+process.on('exit', () => {
     closeDb(process.env.DB_URL);
 });
