@@ -9,7 +9,7 @@ async function getDb(url) {
         const dbListing = { url: url };
         dbListing.ref = await MongoClient.connect(url);
         dbs.push(dbListing);
-        return dbListing;
+        return dbListing.ref;
     }
     return db.ref;
 }
