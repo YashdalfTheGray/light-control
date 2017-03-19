@@ -41,7 +41,37 @@ async function registerUser(req, res) {
     }
 }
 
+async function loginUser(req, res) {
+    try {
+        const db = await getDb(process.env.DB_URL);
+        const collection = await db.collection('users');
+        const [user, ...rest] = await collection.find({ name: req.query.name }).toArray();
+
+        if (rest.length !== 0) {
+            res.status(500).json({
+                status: 'error',
+                message: 'more than one user found'
+            });
+            return;
+        }
+
+        if (!user) {
+            res.sendStatus(401);
+        }
+        else if (user.isAdmin) {
+            res.sendStatus(403);
+        }
+        else {
+            res.json({ accessToken: user.accessToken }); // TODO: add JWT here
+        }
+    }
+    catch (e) {
+        res.status(500).json(e);
+    }
+}
+
 module.exports = {
     User,
-    registerUser
+    registerUser,
+    loginUser
 };
