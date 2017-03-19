@@ -12,11 +12,11 @@ class User {
 }
 
 async function registerUser(req, res) {
-    const db = await getDb(process.env.DB_URL);
-    const collection = await db.collection('users');
-
     try {
+        const db = await getDb(process.env.DB_URL);
+        const collection = await db.collection('users');
         const users = await collection.find({ name: req.body.name }).toArray();
+
         if (users.length === 0) {
             const { result } = await collection.insertOne(new User(req.body.name));
             if (result.ok === 1) {
