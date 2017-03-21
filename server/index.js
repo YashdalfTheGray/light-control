@@ -7,7 +7,8 @@ const bodyParser = require('body-parser');
 const chalk = require('chalk');
 
 const { closeDb } = require('./db');
-const { registerUser, loginUser } = require('./user');
+const { registerUser, loginUser, getUsers } = require('./user');
+const { authenticateAsUser, authenticateAsAdmin } = require('./auth');
 
 const port = process.env.PORT || process.argv[2] || 8080;
 const wrap = fn => (...args) => fn(...args).catch(args[2]);
@@ -25,6 +26,9 @@ app.get('/', (req, res) => {
 
 app.post('/users/register', wrap(registerUser));
 app.get('/users/login', wrap(loginUser));
+app.get('/users', wrap(authenticateAsAdmin), wrap(getUsers));
+
+app.post('/lights/:room', wrap(authenticateAsUser), (req, res) => res.send('you\'re in!'));
 
 app.listen(port, () => console.log(`Server running on port ${chalk.green(port)}`));
 
