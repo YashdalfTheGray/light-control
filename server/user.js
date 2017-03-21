@@ -70,8 +70,22 @@ async function loginUser(req, res) {
     }
 }
 
+async function getUsers(req, res) {
+    try {
+        const db = await getDb(process.env.DB_URL);
+        const collection = await db.collection('users');
+        const users = await collection.find().toArray();
+
+        res.json(users.map(({ _id, name, created }) => ({ _id, name, created })));
+    }
+    catch (e) {
+        res.status(500).json(e);
+    }
+}
+
 module.exports = {
     User,
     registerUser,
-    loginUser
+    loginUser,
+    getUsers
 };
