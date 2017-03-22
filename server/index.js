@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 const chalk = require('chalk');
 
 const { closeDb } = require('./db');
-const { registerUser, loginUser, getUsers } = require('./user');
+const { registerUser, loginUser, getUsers, deleteUser } = require('./user');
 const { authenticateAsUser, authenticateAsAdmin } = require('./auth');
 
 const port = process.env.PORT || process.argv[2] || 8080;
@@ -27,6 +27,7 @@ app.get('/', (req, res) => {
 app.post('/users/register', wrap(registerUser));
 app.get('/users/login', wrap(loginUser));
 app.get('/users', wrap(authenticateAsAdmin), wrap(getUsers));
+app.delete('/users', wrap(authenticateAsAdmin), wrap(deleteUser));
 
 app.post('/lights/:room', wrap(authenticateAsUser), (req, res) => res.send('you\'re in!'));
 
