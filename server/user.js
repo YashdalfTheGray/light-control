@@ -90,8 +90,18 @@ async function deleteUser(req, res) {
     try {
         const db = await getDb(process.env.DB_URL);
         const collection = await db.collection('users');
-        const deleteResult = await collection.remove({ name: req.body.name });
-        res.json(deleteResult);
+        res.json(await collection.remove({ name: req.body.name }));
+    }
+    catch (e) {
+        res.status(500).json(e);
+    }
+}
+
+async function verifyUser(req, res) {
+    try {
+        const db = await getDb(process.env.DB_URL);
+        const collection = await db.collection('users');
+        res.json(await collection.updateOne({ name: req.body.name }, { $set: { isVerified: true } }));
     }
     catch (e) {
         res.status(500).json(e);
@@ -103,5 +113,6 @@ module.exports = {
     registerUser,
     loginUser,
     getUsers,
-    deleteUser
+    deleteUser,
+    verifyUser
 };
