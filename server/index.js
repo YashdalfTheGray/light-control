@@ -7,8 +7,9 @@ const bodyParser = require('body-parser');
 const chalk = require('chalk');
 
 const { closeDb } = require('./db');
-const { registerUser, loginUser, getUsers, deleteUser } = require('./user');
 const { authenticateAsUser, authenticateAsAdmin } = require('./auth');
+const { validateRequestBody, validateQueryParam } = require('./validators');
+const { registerUser, loginUser, getUsers, deleteUser, verifyUser } = require('./user');
 
 const port = process.env.PORT || process.argv[2] || 8080;
 const wrap = fn => (...args) => fn(...args).catch(args[2]);
@@ -24,10 +25,11 @@ app.get('/', (req, res) => {
     });
 });
 
-app.post('/users/register', wrap(registerUser));
-app.get('/users/login', wrap(loginUser));
+app.post('/users/register', validateRequestBody('name'), wrap(registerUser));
+app.get('/users/login', validateQueryParam('name'), wrap(loginUser));
+app.post('/users/verify', validateRequestBody('name'), wrap(authenticateAsAdmin), wrap(verifyUser));
 app.get('/users', wrap(authenticateAsAdmin), wrap(getUsers));
-app.delete('/users', wrap(authenticateAsAdmin), wrap(deleteUser));
+app.delete('/users', validateRequestBody('name'), wrap(authenticateAsAdmin), wrap(deleteUser));
 
 app.post('/lights/:room', wrap(authenticateAsUser), (req, res) => res.send('you\'re in!'));
 
