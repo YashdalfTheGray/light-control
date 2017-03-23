@@ -1,6 +1,14 @@
 const { getDb } = require('./db');
 
 async function authenticate(req, res, next, asAdmin) {
+    if (!req.get('Authorization')) {
+        res.status(401).json({
+            status: 'error',
+            message: 'no authorization header found'
+        });
+        return;
+    }
+
     const [type, token] = req.get('Authorization').split(' ');
 
     if (type !== 'Bearer') {
@@ -27,6 +35,7 @@ async function authenticate(req, res, next, asAdmin) {
             });
         }
         else {
+            res.locals.user = user;
             next();
         }
     }
