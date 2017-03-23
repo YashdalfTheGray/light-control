@@ -76,7 +76,10 @@ async function getUsers(req, res) {
         const collection = await db.collection('users');
         const users = await collection.find().toArray();
 
-        res.json(users.map(({ _id, name, created }) => ({ _id, name, created })));
+        res.json(users
+            .filter(({ isAdmin }) => !isAdmin)
+            .map(({ _id, name, created, isVerified }) => ({ _id, name, created, isVerified }))
+        );
     }
     catch (e) {
         res.status(500).json(e);
