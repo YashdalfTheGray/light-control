@@ -70,22 +70,6 @@ async function loginUser(req, res) {
     }
 }
 
-async function getUsers(req, res) {
-    try {
-        const db = await getDb(process.env.DB_URL);
-        const collection = await db.collection('users');
-        const users = await collection.find().toArray();
-
-        res.json(users
-            .filter(({ isAdmin }) => !isAdmin)
-            .map(({ _id, name, created, isVerified }) => ({ _id, name, created, isVerified }))
-        );
-    }
-    catch (e) {
-        res.status(500).json(e);
-    }
-}
-
 async function deleteUser(req, res) {
     try {
         const db = await getDb(process.env.DB_URL);
@@ -97,22 +81,9 @@ async function deleteUser(req, res) {
     }
 }
 
-async function verifyUser(req, res) {
-    try {
-        const db = await getDb(process.env.DB_URL);
-        const collection = await db.collection('users');
-        res.json(await collection.updateOne({ name: req.body.name }, { $set: { isVerified: true } }));
-    }
-    catch (e) {
-        res.status(500).json(e);
-    }
-}
-
 module.exports = {
     User,
     registerUser,
     loginUser,
-    getUsers,
     deleteUser,
-    verifyUser
 };
