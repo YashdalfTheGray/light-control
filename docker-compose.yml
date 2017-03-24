@@ -4,8 +4,7 @@ services:
         build: .
         ports:
             - "3030:8080"
-        links:
-            - db
+        restart: unless-stopped
     db:
         image: mongo
         ports:
