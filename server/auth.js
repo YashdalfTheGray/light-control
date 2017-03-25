@@ -1,6 +1,6 @@
 const { getDb } = require('./db');
 
-async function authenticate(req, res, next, asAdmin) {
+async function authenticate(req, res, next) {
     if (!req.get('Authorization')) {
         res.status(401).json({
             status: 'error',
@@ -42,6 +42,5 @@ async function authenticate(req, res, next, asAdmin) {
 }
 
 module.exports = {
-    authenticateAsUser: async (req, res, next) => await authenticate(req, res, next),
-    authenticateAsAdmin: async (req, res, next) => await authenticate(req, res, next, true)
+    authenticate
 };
