@@ -11,7 +11,7 @@ function validateRequestBody(key) {
         else {
             next();
         }
-    }
+    };
 }
 
 function validateQueryParam(key) {
@@ -25,7 +25,7 @@ function validateQueryParam(key) {
         else {
             next();
         }
-    }
+    };
 }
 
 module.exports = {

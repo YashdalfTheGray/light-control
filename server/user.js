@@ -85,5 +85,5 @@ module.exports = {
     User,
     registerUser,
     loginUser,
-    deleteUser,
+    deleteUser
 };

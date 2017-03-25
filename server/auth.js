@@ -28,7 +28,7 @@ async function authenticate(req, res, next) {
         const collection = await db.collection('users');
         const [user] = await collection.find({ accessToken: token }).toArray();
 
-        if (!user || (asAdmin && !user.isAdmin)) {
+        if (!user) {
             res.status(403).json({
                 status: 'error',
                 message: 'user not authorized'
