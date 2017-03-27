@@ -1,4 +1,5 @@
 const uuid = require('uuid');
+const { sign } = require('jsonwebtoken');
 
 const { getDb } = require('./db');
 
@@ -10,6 +11,11 @@ class User {
         this.accessToken = uuid();
     }
 }
+
+const jwtOptions = {
+    issuer: process.env.JWT_ISSUER,
+    expiresIn: process.env.JWT_TTL
+};
 
 async function registerUser(req, res) {
     try {
@@ -62,7 +68,9 @@ async function loginUser(req, res) {
             res.sendStatus(403);
         }
         else {
-            res.json({ accessToken: user.accessToken }); // TODO: add JWT here
+            res.json({
+                token: sign({ usr: user.name, tkn: user.accessToken }, process.env.JWT_SECRET, jwtOptions)
+            });
         }
     }
     catch (e) {
@@ -74,7 +82,7 @@ async function deleteUser(req, res) {
     try {
         const db = await getDb(process.env.DB_URL);
         const collection = await db.collection('users');
-        res.json(await collection.remove({ name: req.body.name }));
+        res.json(await collection.remove({ name: req.params.name }));
     }
     catch (e) {
         res.status(500).json(e);
