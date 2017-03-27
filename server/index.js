@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
 
 app.post('/users/register', validateRequestBody('name'), wrap(registerUser));
 app.get('/users/login', validateQueryParam('name'), wrap(loginUser));
-app.delete('/users', validateRequestBody('name'), wrap(authenticate), wrap(deleteUser));
+app.delete('/users/:name', validateRequestBody('name'), wrap(authenticate), wrap(deleteUser));
 
 app.post('/lights/:room', wrap(authenticate), (req, res) => res.send('you\'re in!'));
 
