@@ -9,6 +9,7 @@ const { closeDb } = require('./db');
 const { authenticate } = require('./auth');
 const { validateRequestBody, validateQueryParam } = require('./validators');
 const { registerUser, loginUser, deleteUser } = require('./user');
+const { getStatus } = require('./lights');
 
 const port = process.env.PORT || process.argv[2] || 8080;
 const wrap = fn => (...args) => fn(...args).catch(args[2]);
@@ -28,7 +29,7 @@ app.post('/users/register', validateRequestBody('name'), wrap(registerUser));
 app.get('/users/login', validateQueryParam('name'), wrap(loginUser));
 app.delete('/users/:name', validateRequestBody('name'), wrap(authenticate), wrap(deleteUser));
 
-app.post('/lights/:room', wrap(authenticate), (req, res) => res.send('you\'re in!'));
+app.get('/lights/status', wrap(authenticate), wrap(getStatus));
 
 app.listen(port, () => console.log(`Server running on port ${chalk.green(port)}`));
 
