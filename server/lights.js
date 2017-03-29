@@ -14,7 +14,7 @@ async function getStatus(req, res) {
     }
 }
 
-async function getRoomLights(req, res) {
+async function getAllLights(req, res) {
     try {
         const response = await request({
             uri: `${process.env.HUE_REMOTE_URL}/api/groups`,
@@ -32,5 +32,5 @@ async function getRoomLights(req, res) {
 
 module.exports = {
     getStatus,
-    getRoomLights
+    getAllLights
 };
