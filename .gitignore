@@ -2,6 +2,9 @@
 db/
 admins.json
 
+# typescript
+dist/
+
 # Created by https://www.gitignore.io/api/windows,osx,linux,node
 
 ### Linux ###
