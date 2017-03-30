@@ -1,8 +1,9 @@
-const { verify, TokenExpiredError } = require('jsonwebtoken');
+import { verify, TokenExpiredError } from 'jsonwebtoken';
+import { Request, Response, NextFunction } from 'express';
 
-const { getDb } = require('./db');
+import { getDb } from './db';
 
-async function authenticate(req, res, next) {
+export async function authenticate(req: Request, res: Response, next: NextFunction) {
     if (!req.get('Authorization')) {
         res.status(401).json({
             status: 'error',
@@ -64,7 +65,3 @@ async function authenticate(req, res, next) {
         }
     }
 }
-
-module.exports = {
-    authenticate
-};

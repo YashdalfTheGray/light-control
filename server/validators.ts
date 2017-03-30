@@ -1,7 +1,8 @@
 const { get } = require('lodash');
+import { Request, Response, NextFunction, Handler } from 'express';
 
-function validateRequestBody(key) {
-    return (req, res, next) => {
+export function validateRequestBody(key: string): Handler {
+    return (req: Request, res: Response, next: NextFunction) => {
         if (!get(req.body, key)) {
             res.status(400).json({
                 status: 'error',
@@ -14,8 +15,8 @@ function validateRequestBody(key) {
     };
 }
 
-function validateQueryParam(key) {
-    return (req, res, next) => {
+export function validateQueryParam(key: string): Handler {
+    return (req: Request, res: Response, next: NextFunction) => {
         if (!get(req.query, key)) {
             res.status(400).json({
                 status: 'error',
@@ -27,8 +28,3 @@ function validateQueryParam(key) {
         }
     };
 }
-
-module.exports = {
-    validateRequestBody,
-    validateQueryParam
-};

@@ -1,10 +1,16 @@
-const uuid = require('uuid');
-const { sign } = require('jsonwebtoken');
+import * as uuid from 'uuid';
+import { sign } from 'jsonwebtoken';
+import { Request, Response } from 'express';
 
-const { getDb } = require('./db');
+import { getDb } from './db';
 
-class User {
-    constructor(name) {
+export class User {
+    name: string;
+    created: number;
+    isVerified: boolean;
+    accessToken: string;
+
+    constructor(name: string) {
         this.name = name;
         this.created = Date.now();
         this.isVerified = false;
@@ -17,7 +23,7 @@ const jwtOptions = {
     expiresIn: process.env.JWT_TTL
 };
 
-async function registerUser(req, res) {
+export async function registerUser(req: Request, res: Response) {
     try {
         const db = await getDb(process.env.DB_URL);
         const collection = await db.collection('users');
@@ -47,7 +53,7 @@ async function registerUser(req, res) {
     }
 }
 
-async function loginUser(req, res) {
+export async function loginUser(req: Request, res: Response) {
     try {
         const db = await getDb(process.env.DB_URL);
         const collection = await db.collection('users');
@@ -78,7 +84,7 @@ async function loginUser(req, res) {
     }
 }
 
-async function deleteUser(req, res) {
+export async function deleteUser(req: Request, res: Response) {
     try {
         const db = await getDb(process.env.DB_URL);
         const collection = await db.collection('users');
@@ -88,10 +94,3 @@ async function deleteUser(req, res) {
         res.status(500).json(e);
     }
 }
-
-module.exports = {
-    User,
-    registerUser,
-    loginUser,
-    deleteUser
-};

@@ -1,18 +1,18 @@
 require('dotenv').config();
 
-const express = require('express');
-const morgan = require('morgan');
-const bodyParser = require('body-parser');
-const chalk = require('chalk');
+import * as express from 'express';
+import * as morgan from 'morgan';
+import * as bodyParser from 'body-parser';
+import * as chalk from 'chalk';
 
-const { closeDb } = require('./db');
-const { authenticate } = require('./auth');
-const { validateRequestBody, validateQueryParam } = require('./validators');
-const { registerUser, loginUser, deleteUser } = require('./user');
+import { closeDb } from './db';
+import { authenticate } from './auth';
+import { validateRequestBody, validateQueryParam } from './validators';
+import { registerUser, loginUser, deleteUser } from './user';
 const { getStatus, getAllLights, getRoomLights } = require('./lights');
 
 const port = process.env.PORT || process.argv[2] || 8080;
-const wrap = fn => (...args) => fn(...args).catch(args[2]);
+const wrap = (fn: any) => (...args: any[]) => fn(...args).catch(args[2]);
 
 const app = express();
 const apiRouter = express.Router();

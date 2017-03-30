@@ -1,6 +1,7 @@
-const request = require('request-promise');
+import * as request from 'request-promise';
+import { Request, Response } from 'express';
 
-async function getStatus(req, res) {
+export async function getStatus(req: Request, res: Response) {
     try {
         const { status } = await request({
             uri: `${process.env.HUE_REMOTE_URL}`,
@@ -14,7 +15,7 @@ async function getStatus(req, res) {
     }
 }
 
-async function getAllLights(req, res) {
+export async function getAllLights(req: Request, res: Response) {
     try {
         const response = await request({
             uri: `${process.env.HUE_REMOTE_URL}/api/groups`,
@@ -30,7 +31,7 @@ async function getAllLights(req, res) {
     }
 }
 
-async function getRoomLights(req, res) {
+export async function getRoomLights(req: Request, res: Response) {
     try {
         const response = await request({
             uri: `${process.env.HUE_REMOTE_URL}/api/groups/${req.params.id}`,
@@ -46,9 +47,3 @@ async function getRoomLights(req, res) {
         res.status(500).json(e);
     }
 }
-
-module.exports = {
-    getStatus,
-    getAllLights,
-    getRoomLights
-};
