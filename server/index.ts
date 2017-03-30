@@ -9,7 +9,7 @@ import { closeDb } from './db';
 import { authenticate } from './auth';
 import { validateRequestBody, validateQueryParam } from './validators';
 import { registerUser, loginUser, deleteUser } from './user';
-const { getStatus, getAllLights, getRoomLights } = require('./lights');
+import { getStatus, getAllLights, getRoomLights } from './lights';
 
 const port = process.env.PORT || process.argv[2] || 8080;
 const wrap = (fn: any) => (...args: any[]) => fn(...args).catch(args[2]);
