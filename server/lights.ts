@@ -66,3 +66,20 @@ export async function setRoomLights(req: Request, res: Response) {
         res.status(500).json(e);
     }
 }
+
+export async function getOneLight(req: Request, res: Response) {
+    try {
+        const response = await request({
+            uri: `${process.env.HUE_REMOTE_URL}/api/lights/${req.params.id}`,
+            json: true,
+            headers: {
+                Authorization: `Bearer ${process.env.HUE_REMOTE_TOKEN}`
+            }
+        });
+
+        res.json(response);
+    }
+    catch (e) {
+        res.status(500).json(e);
+    }
+}

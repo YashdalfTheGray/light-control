@@ -9,7 +9,7 @@ import { closeDb } from './db';
 import { authenticate } from './auth';
 import { validateRequestBody, validateQueryParam } from './validators';
 import { registerUser, loginUser, deleteUser } from './user';
-import { getStatus, getAllRooms, getRoomLights, setRoomLights } from './lights';
+import { getStatus, getAllRooms, getRoomLights, setRoomLights, getOneLight } from './lights';
 
 const port = process.env.PORT || process.argv[2] || 8080;
 const wrap = (fn: any) => (...args: any[]) => fn(...args).catch(args[2]);
@@ -35,6 +35,8 @@ apiRouter.get('/hue/status', wrap(authenticate), wrap(getStatus));
 apiRouter.get('/rooms', wrap(authenticate), wrap(getAllRooms));
 apiRouter.get('/rooms/:id', wrap(authenticate), wrap(getRoomLights));
 apiRouter.post('/rooms/:id', wrap(authenticate), wrap(setRoomLights));
+
+apiRouter.get('/lights/:id', wrap(authenticate), wrap(getOneLight));
 
 app.use('/api', apiRouter);
 
