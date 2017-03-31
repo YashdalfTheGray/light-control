@@ -9,7 +9,7 @@ import { closeDb } from './db';
 import { authenticate } from './auth';
 import { validateRequestBody, validateQueryParam } from './validators';
 import { registerUser, loginUser, deleteUser } from './user';
-import { getStatus, getAllLights, getRoomLights } from './lights';
+import { getStatus, getAllLights, getRoomLights, setRoomLights } from './lights';
 
 const port = process.env.PORT || process.argv[2] || 8080;
 const wrap = (fn: any) => (...args: any[]) => fn(...args).catch(args[2]);
@@ -33,6 +33,7 @@ apiRouter.delete('/users/:name', validateRequestBody('name'), wrap(authenticate)
 apiRouter.get('/lights/status', wrap(authenticate), wrap(getStatus));
 apiRouter.get('/lights', wrap(authenticate), wrap(getAllLights));
 apiRouter.get('/lights/:id', wrap(authenticate), wrap(getRoomLights));
+apiRouter.post('/lights/:id', wrap(authenticate), wrap(setRoomLights));
 
 app.use('/api', apiRouter);
 
