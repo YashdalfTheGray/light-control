@@ -83,3 +83,22 @@ export async function getOneLight(req: Request, res: Response) {
         res.status(500).json(e);
     }
 }
+
+export async function setOneLight(req: Request, res: Response) {
+    try {
+        const response = await request({
+            method: 'POST',
+            uri: `${process.env.HUE_REMOTE_URL}/api/lights/${req.params.id}/state`,
+            json: true,
+            headers: {
+                Authorization: `Bearer ${process.env.HUE_REMOTE_TOKEN}`
+            },
+            body: req.body
+        });
+
+        res.json(response);
+    }
+    catch (e) {
+        res.status(500).json(e);
+    }
+}
