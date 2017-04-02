@@ -2,8 +2,10 @@
 db/
 admins.json
 
-# typescript
+# typescript and webpack
 dist/
+public/*.js
+public/*.js.map
 
 # Created by https://www.gitignore.io/api/windows,osx,linux,node
 
