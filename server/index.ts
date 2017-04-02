@@ -1,5 +1,6 @@
 require('dotenv').config();
 
+import { resolve } from 'path';
 import * as express from 'express';
 import * as morgan from 'morgan';
 import * as bodyParser from 'body-parser';
@@ -19,8 +20,9 @@ const apiRouter = express.Router();
 
 app.use(bodyParser.json());
 app.use(morgan('dev'));
+app.use(express.static(resolve('public')));
 
-app.get('/', (req, res) => {
+apiRouter.get('/', (req, res) => {
     res.json({
         status: 'okay'
     });
