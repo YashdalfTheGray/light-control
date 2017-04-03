@@ -6,8 +6,24 @@
         "noImplicitAny": true,
         "outDir": "dist/",
         "pretty": true,
-        "target": "es2017"
+        "target": "es2017",
+        "types": [
+            "body-parser",
+            "chalk",
+            "dotenv",
+            "express",
+            "jsonwebtoken",
+            "lodash",
+            "mongodb",
+            "morgan",
+            "node",
+            "request-promise",
+            "uuid"
+        ]
     },
+    "include": [
+        "server/**/*"
+    ],
     "compileOnSave": false,
     "buildOnSave": false,
     "atom": {
