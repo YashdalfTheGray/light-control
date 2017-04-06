@@ -4,20 +4,29 @@ import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 
 class LoginPageState {
-    rooms?: Object[];
+    name?: string;
 }
 
 export default class LoginPage extends React.Component<{}, LoginPageState> {
-    async componentDidMount() {
-        try {
-            const response = await fetch('/api/users/login?name=test');
+    constructor(props: any) {
+        super(props);
 
-            console.log(await response.json());
-        }
-        catch(e) {
-            console.log(e);
-        }
+        this.state = {
+            name: ''
+        };
 
+        this.handleNameChange = this.handleNameChange.bind(this);
+        this.handleLogin = this.handleLogin.bind(this);
+    }
+
+    handleNameChange({ currentTarget: { value } }:React.FormEvent<HTMLInputElement>) {
+        this.setState({
+            name: value
+        });
+    }
+
+    async handleLogin() {
+        console.log(this.state);
     }
 
     render() {
@@ -27,11 +36,15 @@ export default class LoginPage extends React.Component<{}, LoginPageState> {
                 <CardText>
                     <TextField
                         floatingLabelText="Name"
-                        fullWidth={true} />
+                        fullWidth={true}
+                        onChange={this.handleNameChange} />
                 </CardText>
                 <CardActions>
                     <FlatButton label="Register" />
-                    <FlatButton label="Login" primary={true} />
+                    <FlatButton
+                        label="Login"
+                        primary={true}
+                        onTouchTap={this.handleLogin} />
                 </CardActions>
             </Card>
         );
