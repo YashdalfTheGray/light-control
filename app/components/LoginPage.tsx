@@ -26,7 +26,14 @@ export default class LoginPage extends React.Component<{}, LoginPageState> {
     }
 
     async handleLogin() {
-        console.log(this.state);
+        try {
+            const response = await fetch(`/api/users/login?name=${this.state.name}`);
+            const resBody = await response.json();
+            console.log(resBody);
+        }
+        catch(e) {
+            console.log(e);
+        }
     }
 
     render() {
