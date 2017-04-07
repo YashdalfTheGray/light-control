@@ -7,8 +7,8 @@ import Snackbar from 'material-ui/Snackbar';
 class LoginPageState {
     name?: string;
     token?: string;
-    showLoginSnackbar?: boolean;
-    loginMessage?: string;
+    showSnackbar?: boolean;
+    snackbarMessage?: string;
 }
 
 export default class LoginPage extends React.Component<{}, LoginPageState> {
@@ -18,8 +18,8 @@ export default class LoginPage extends React.Component<{}, LoginPageState> {
         this.state = {
             name: '',
             token: '',
-            showLoginSnackbar: false,
-            loginMessage: ''
+            showSnackbar: false,
+            snackbarMessage: ''
         };
 
         this.handleNameChange = this.handleNameChange.bind(this);
@@ -35,23 +35,35 @@ export default class LoginPage extends React.Component<{}, LoginPageState> {
 
     handleRequestClose() {
         this.setState({
-            showLoginSnackbar: false
+            showSnackbar: false
         });
     }
 
     async handleLogin() {
         try {
             const response = await fetch(`/api/users/login?name=${this.state.name}`);
-            console.log(response);
-            const resBody = await response.json();
-            this.setState({
-                token: resBody.token,
-                showLoginSnackbar: true,
-                loginMessage: 'Login successful'
-            });
+
+            if (response.status === 403) {
+                throw new Error('Login error');
+            }
+            else if (response.status === 500) {
+                throw new Error('Server encountered and error');
+            }
+            else {
+                const resBody = await response.json();
+
+                this.setState({
+                    token: resBody.token,
+                    showSnackbar: true,
+                    snackbarMessage: 'Login successful'
+                });
+            }
         }
         catch(e) {
-            console.log(e);
+            this.setState({
+                showSnackbar: true,
+                snackbarMessage: e.message
+            });
         }
     }
 
@@ -75,8 +87,8 @@ export default class LoginPage extends React.Component<{}, LoginPageState> {
                     </CardActions>
                 </Card>
                 <Snackbar
-                    open={this.state.showLoginSnackbar}
-                    message={this.state.loginMessage}
+                    open={this.state.showSnackbar}
+                    message={this.state.snackbarMessage}
                     autoHideDuration={4000}
                     onRequestClose={this.handleRequestClose} />
             </div>
