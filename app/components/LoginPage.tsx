@@ -5,6 +5,7 @@ import FlatButton from 'material-ui/FlatButton';
 
 class LoginPageState {
     name?: string;
+    token?: string;
 }
 
 export default class LoginPage extends React.Component<{}, LoginPageState> {
@@ -12,7 +13,8 @@ export default class LoginPage extends React.Component<{}, LoginPageState> {
         super(props);
 
         this.state = {
-            name: ''
+            name: '',
+            token: ''
         };
 
         this.handleNameChange = this.handleNameChange.bind(this);
@@ -21,7 +23,7 @@ export default class LoginPage extends React.Component<{}, LoginPageState> {
 
     handleNameChange({ currentTarget: { value } }:React.FormEvent<HTMLInputElement>) {
         this.setState({
-            name: value
+            name: value.toLowerCase()
         });
     }
 
@@ -29,7 +31,9 @@ export default class LoginPage extends React.Component<{}, LoginPageState> {
         try {
             const response = await fetch(`/api/users/login?name=${this.state.name}`);
             const resBody = await response.json();
-            console.log(resBody);
+            this.setState({
+                token: resBody.token
+            });
         }
         catch(e) {
             console.log(e);
