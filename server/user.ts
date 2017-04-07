@@ -68,9 +68,6 @@ export async function loginUser(req: Request, res: Response) {
         }
 
         if (!user) {
-            res.sendStatus(401);
-        }
-        else if (user.isAdmin) {
             res.sendStatus(403);
         }
         else {
