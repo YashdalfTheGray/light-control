@@ -6,7 +6,6 @@ import Snackbar from 'material-ui/Snackbar';
 
 class LoginPageState {
     name?: string;
-    token?: string;
     showSnackbar?: boolean;
     snackbarMessage?: string;
 }
@@ -17,7 +16,6 @@ export default class LoginPage extends React.Component<{}, LoginPageState> {
 
         this.state = {
             name: '',
-            token: '',
             showSnackbar: false,
             snackbarMessage: ''
         };
@@ -43,17 +41,20 @@ export default class LoginPage extends React.Component<{}, LoginPageState> {
         try {
             const response = await fetch(`/api/users/login?name=${this.state.name}`);
 
-            if (response.status === 403) {
+            if (response.status === 400) {
+                throw new Error('Bad login request');
+            }
+            else if (response.status === 403) {
                 throw new Error('Login error');
             }
             else if (response.status === 500) {
                 throw new Error('Server encountered and error');
             }
             else {
-                const resBody = await response.json();
+                const { token } = await response.json();
 
+                sessionStorage.setItem('userToken', token);
                 this.setState({
-                    token: resBody.token,
                     showSnackbar: true,
                     snackbarMessage: 'Login successful'
                 });
