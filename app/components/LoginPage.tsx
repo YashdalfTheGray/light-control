@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
@@ -10,7 +11,7 @@ class LoginPageState {
     snackbarMessage?: string;
 }
 
-export default class LoginPage extends React.Component<{}, LoginPageState> {
+export default class LoginPage extends React.Component<RouteComponentProps<any>, LoginPageState> {
     constructor(props: any) {
         super(props);
 
@@ -57,6 +58,8 @@ export default class LoginPage extends React.Component<{}, LoginPageState> {
                 this.setState({
                     showSnackbar: true,
                     snackbarMessage: 'Login successful'
+                }, () => {
+                    this.props.history.push('/lights');
                 });
             }
         }
