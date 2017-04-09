@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
+import Snackbar from 'material-ui/Snackbar';
 
 interface Room {
     id: string;
@@ -23,6 +24,8 @@ export default class LightsPage extends React.Component<RouteComponentProps<any>
             showSnackbar: false,
             snackbarMessage: ''
         };
+
+        this.handleRequestClose = this.handleRequestClose.bind(this);
     }
 
     async componentDidMount() {
@@ -46,15 +49,28 @@ export default class LightsPage extends React.Component<RouteComponentProps<any>
         }
     }
 
+    handleRequestClose() {
+        this.setState({
+            showSnackbar: false,
+            snackbarMessage: ''
+        });
+    }
+
     render() {
         if (!sessionStorage.getItem('userToken')) {
             return (<Redirect to="/" />);
         }
 
         return (
-            <div
-                style={{ fontFamily: 'Roboto', margin: '16px', fontSize: '20px' }}>
-                No rooms to display
+            <div style={{ margin: '16px' }}>
+                <span style={{ fontFamily: 'Roboto', fontSize: '20px' }}>
+                    No rooms to display
+                </span>
+                <Snackbar
+                    open={this.state.showSnackbar}
+                    message={this.state.snackbarMessage}
+                    autoHideDuration={4000}
+                    onRequestClose={this.handleRequestClose} />
             </div>
         );
     }
