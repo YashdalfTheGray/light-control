@@ -26,9 +26,9 @@ export default class LoginPage extends React.Component<RouteComponentProps<any>,
         this.handleRequestClose = this.handleRequestClose.bind(this);
     }
 
-    handleNameChange({ currentTarget: { value } }:React.FormEvent<HTMLInputElement>) {
+    handleNameChange(_: React.FormEvent<HTMLInputElement>, newValue: string) {
         this.setState({
-            name: value.toLowerCase()
+            name: newValue.toLowerCase()
         });
     }
 
