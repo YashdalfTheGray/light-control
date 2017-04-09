@@ -47,8 +47,9 @@ export default class LightsPage extends React.Component<RouteComponentProps<any>
         }
 
         return (
-            <div>
-                <h3 style={{ fontFamily: 'Roboto' }}>Lights Page</h3>
+            <div
+                style={{ fontFamily: 'Roboto', margin: '16px', fontSize: '20px' }}>
+                No rooms to display
             </div>
         );
     }
