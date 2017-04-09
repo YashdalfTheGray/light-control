@@ -10,6 +10,8 @@ interface Room {
 
 class LightsPageState {
     rooms: Room[];
+    showSnackbar: boolean;
+    snackbarMessage: string;
 }
 
 export default class LightsPage extends React.Component<RouteComponentProps<any>, LightsPageState> {
@@ -17,7 +19,9 @@ export default class LightsPage extends React.Component<RouteComponentProps<any>
         super(props);
 
         this.state = {
-            rooms: []
+            rooms: [],
+            showSnackbar: false,
+            snackbarMessage: ''
         };
     }
 
@@ -32,12 +36,13 @@ export default class LightsPage extends React.Component<RouteComponentProps<any>
 
             this.setState({
                 rooms: resBody
-            }, () => {
-                console.log(this.state);
             });
         }
         catch(e) {
-            console.log(e);
+            this.setState({
+                showSnackbar: true,
+                snackbarMessage: 'There was an error getting the rooms'
+            });
         }
     }
 
