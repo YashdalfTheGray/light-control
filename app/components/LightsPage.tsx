@@ -57,15 +57,30 @@ export default class LightsPage extends React.Component<RouteComponentProps<any>
     }
 
     render() {
+        let roomsToDisplay;
+
         if (!sessionStorage.getItem('userToken')) {
             return (<Redirect to="/" />);
         }
 
-        return (
-            <div style={{ margin: '16px' }}>
+        if (this.state.rooms.length === 0) {
+            roomsToDisplay = (
                 <span style={{ fontFamily: 'Roboto', fontSize: '20px' }}>
                     No rooms to display
                 </span>
+            );
+        }
+        else {
+            roomsToDisplay = this.state.rooms.map(r => (
+                <div key={r.id} style={{ fontFamily: 'Roboto', fontSize: '20px' }}>
+                    {r.name}
+                </div>
+            ));
+        }
+
+        return (
+            <div style={{ margin: '16px' }}>
+                {roomsToDisplay}
                 <Snackbar
                     open={this.state.showSnackbar}
                     message={this.state.snackbarMessage}
