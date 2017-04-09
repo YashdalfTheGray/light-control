@@ -2,15 +2,10 @@ import * as React from 'react';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
 import Snackbar from 'material-ui/Snackbar';
 
-interface Room {
-    id: string;
-    name: string;
-    lightIds: string[];
-    state: {};
-}
+import Room, { RoomData } from './Room';
 
 class LightsPageState {
-    rooms: Room[];
+    rooms: RoomData[];
     showSnackbar: boolean;
     snackbarMessage: string;
 }
@@ -73,7 +68,7 @@ export default class LightsPage extends React.Component<RouteComponentProps<any>
         else {
             roomsToDisplay = this.state.rooms.map(r => (
                 <div key={r.id} style={{ fontFamily: 'Roboto', fontSize: '20px' }}>
-                    {r.name}
+                    <Room key={r.id} {...r} />
                 </div>
             ));
         }
