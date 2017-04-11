@@ -23,6 +23,7 @@ export default class LoginPage extends React.Component<RouteComponentProps<any>,
 
         this.handleNameChange = this.handleNameChange.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
+        this.handleRegister = this.handleRegister.bind(this);
         this.handleRequestClose = this.handleRequestClose.bind(this);
     }
 
@@ -71,6 +72,36 @@ export default class LoginPage extends React.Component<RouteComponentProps<any>,
         }
     }
 
+    async handleRegister() {
+        try {
+            const response = await fetch(`/api/users/register`, {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: this.state.name
+                })
+            });
+
+            if (response.status === 500) {
+                throw new Error('The server encountered an error');
+            }
+            else if (response.status === 400) {
+                throw new Error('There was an error with your request');
+            }
+            else {
+                throw new Error('Registration successful, please contact the admin for verification');
+            }
+        }
+        catch(e) {
+            this.setState({
+                showSnackbar: true,
+                snackbarMessage: e.message
+            });
+        }
+    }
+
     render() {
         return (
             <div>
@@ -83,7 +114,9 @@ export default class LoginPage extends React.Component<RouteComponentProps<any>,
                             onChange={this.handleNameChange} />
                     </CardText>
                     <CardActions>
-                        <FlatButton label="Register" />
+                        <FlatButton
+                            label="Register"
+                            onTouchTap={this.handleRegister} />
                         <FlatButton
                             label="Login"
                             primary={true}
