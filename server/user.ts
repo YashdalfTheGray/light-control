@@ -42,10 +42,7 @@ export async function registerUser(req: Request, res: Response) {
             }
         }
         else {
-            res.status(400).json({
-                status: 'error',
-                message: 'user already exists'
-            });
+            res.status(400);
         }
     }
     catch (e) {
@@ -57,7 +54,10 @@ export async function loginUser(req: Request, res: Response) {
     try {
         const db = await getDb(process.env.DB_URL);
         const collection = await db.collection('users');
-        const [user, ...rest] = await collection.find({ name: req.query.name }).toArray();
+        const [user, ...rest] = <User[]> await collection.find({
+            name: req.query.name,
+            isVerified: true
+        }).toArray();
 
         if (rest.length !== 0) {
             res.status(500).json({
