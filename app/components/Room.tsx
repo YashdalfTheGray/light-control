@@ -12,6 +12,7 @@ export interface RoomData {
 
 class RoomState {
     showSnackbar: boolean;
+    expanded: boolean;
     snackbarMessage: string;
 }
 
@@ -21,16 +22,25 @@ export default class Room extends React.Component<RoomData, RoomState> {
 
         this.state = {
             showSnackbar: false,
+            expanded: false,
             snackbarMessage: ''
         };
 
         this.changeLightState = this.changeLightState.bind(this);
+        this.handleRequestClose = this.handleRequestClose.bind(this);
+        this.handleExpandChange = this.handleExpandChange.bind(this);
     }
 
     handleRequestClose() {
         this.setState({
             showSnackbar: false,
             snackbarMessage: ''
+        });
+    }
+
+    handleExpandChange(newState: boolean) {
+        this.setState({
+            expanded: newState
         });
     }
 
@@ -56,9 +66,15 @@ export default class Room extends React.Component<RoomData, RoomState> {
     render() {
         return (
             <div>
-                <Card>
-                    <CardTitle title={this.props.name} />
-                    <CardText>
+                <Card
+                    expanded={this.state.expanded}
+                    initiallyExpanded={false}
+                    onExpandChange={this.handleExpandChange}>
+                    <CardTitle
+                        showExpandableButton={true}
+                        title={this.props.name} />
+                    <CardText
+                        expandable={true}>
                         {this.props.lightIds.join(' ')}
                     </CardText>
                     <CardActions>
