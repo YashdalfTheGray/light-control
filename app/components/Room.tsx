@@ -3,6 +3,8 @@ import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import Snackbar from 'material-ui/Snackbar';
 
+import RoomLight from './RoomLight';
+
 export interface RoomData {
     id: string;
     name: string;
@@ -75,7 +77,9 @@ export default class Room extends React.Component<RoomData, RoomState> {
                         title={this.props.name} />
                     <CardText
                         expandable={true}>
-                        {this.props.lightIds.join(' ')}
+                        {this.props.lightIds.map(id => (
+                            <RoomLight key={id} id={id} />
+                        ))}
                     </CardText>
                     <CardActions>
                         <FlatButton
