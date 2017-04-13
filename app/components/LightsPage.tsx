@@ -74,7 +74,7 @@ export default class LightsPage extends React.Component<RouteComponentProps<any>
         }
 
         return (
-            <div style={{ margin: '16px' }}>
+            <div className="list" style={{ margin: '16px' }}>
                 {roomsToDisplay}
                 <Snackbar
                     open={this.state.showSnackbar}
