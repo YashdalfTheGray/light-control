@@ -9,23 +9,13 @@ module.exports = {
     },
     devtool: 'source-map',
     resolve: {
-        extensions: ['.ts', '.tsx', '.js', '.jsx']
+        extensions: ['.js', '.jsx']
     },
     module: {
         rules: [
             {
-                test: /\.tsx?$/,
-                use: [
-                    {
-                        loader: 'ts-loader',
-                        options: {
-                            compilerOptions: {
-                                target: 'es5',
-                                lib: ['dom', 'es2017']
-                            }
-                        }
-                    }
-                ]
+                test: /\.jsx?$/,
+                use: ['babel-loader']
             }
         ]
     }
