@@ -1,18 +1,11 @@
 import * as React from 'react';
-import { RouteComponentProps } from 'react-router-dom';
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import Snackbar from 'material-ui/Snackbar';
 
-class LoginPageState {
-    name?: string;
-    showSnackbar?: boolean;
-    snackbarMessage?: string;
-}
-
-export default class LoginPage extends React.Component<RouteComponentProps<any>, LoginPageState> {
-    constructor(props: any) {
+export default class LoginPage extends React.Component {
+    constructor(props) {
         super(props);
 
         this.state = {
@@ -27,7 +20,7 @@ export default class LoginPage extends React.Component<RouteComponentProps<any>,
         this.handleRequestClose = this.handleRequestClose.bind(this);
     }
 
-    handleNameChange(_: React.FormEvent<HTMLInputElement>, newValue: string) {
+    handleNameChange(event, newValue) {
         this.setState({
             name: newValue.toLowerCase()
         });
@@ -64,7 +57,7 @@ export default class LoginPage extends React.Component<RouteComponentProps<any>,
                 });
             }
         }
-        catch(e) {
+        catch (e) {
             this.setState({
                 showSnackbar: true,
                 snackbarMessage: e.message
@@ -74,7 +67,7 @@ export default class LoginPage extends React.Component<RouteComponentProps<any>,
 
     async handleRegister() {
         try {
-            const response = await fetch(`/api/users/register`, {
+            const response = await fetch('/api/users/register', {
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json'
@@ -94,7 +87,7 @@ export default class LoginPage extends React.Component<RouteComponentProps<any>,
                 throw new Error('Registration successful, please contact the admin for verification');
             }
         }
-        catch(e) {
+        catch (e) {
             this.setState({
                 showSnackbar: true,
                 snackbarMessage: e.message
@@ -110,7 +103,7 @@ export default class LoginPage extends React.Component<RouteComponentProps<any>,
                     <CardText>
                         <TextField
                             floatingLabelText="Name"
-                            fullWidth={true}
+                            fullWidth
                             onChange={this.handleNameChange} />
                     </CardText>
                     <CardActions>
@@ -119,7 +112,7 @@ export default class LoginPage extends React.Component<RouteComponentProps<any>,
                             onTouchTap={this.handleRegister} />
                         <FlatButton
                             label="Login"
-                            primary={true}
+                            primary
                             onTouchTap={this.handleLogin} />
                     </CardActions>
                 </Card>

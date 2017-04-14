@@ -1,25 +1,13 @@
 import * as React from 'react';
+import * as PropTypes from 'prop-types';
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import Snackbar from 'material-ui/Snackbar';
 
 import RoomLight from './RoomLight';
 
-export interface RoomData {
-    id: string;
-    name: string;
-    lightIds: string[];
-    state: {};
-}
-
-class RoomState {
-    showSnackbar: boolean;
-    expanded: boolean;
-    snackbarMessage: string;
-}
-
-export default class Room extends React.Component<RoomData, RoomState> {
-    constructor(props: any) {
+class Room extends React.Component {
+    constructor(props) {
         super(props);
 
         this.state = {
@@ -29,6 +17,8 @@ export default class Room extends React.Component<RoomData, RoomState> {
         };
 
         this.changeLightState = this.changeLightState.bind(this);
+        this.turnLightsOn = this.turnLightsOn.bind(this);
+        this.turnLightsOff = this.turnLightsOff.bind(this);
         this.handleRequestClose = this.handleRequestClose.bind(this);
         this.handleExpandChange = this.handleExpandChange.bind(this);
     }
@@ -40,29 +30,37 @@ export default class Room extends React.Component<RoomData, RoomState> {
         });
     }
 
-    handleExpandChange(newState: boolean) {
+    handleExpandChange(newState) {
         this.setState({
             expanded: newState
         });
     }
 
-    async changeLightState(state: { on: boolean }) {
+    async changeLightState(state) {
         try {
-            const response = await fetch(`/api/rooms/${this.props.id}`, {
+            await fetch(`/api/rooms/${this.props.id}`, {
                 method: 'post',
                 headers: {
-                    'Authorization': `Bearer ${sessionStorage.getItem('userToken')}`,
+                    Authorization: `Bearer ${sessionStorage.getItem('userToken')}`,
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(state)
             });
         }
-        catch(e) {
+        catch (e) {
             this.setState({
                 showSnackbar: true,
                 snackbarMessage: `An error occured while turning ${state.on ? 'on' : 'off'} lights`
             });
         }
+    }
+
+    async turnLightsOn() {
+        return this.changeLightState({ on: true });
+    }
+
+    async turnLightsOff() {
+        return this.changeLightState({ on: false });
     }
 
     render() {
@@ -73,10 +71,10 @@ export default class Room extends React.Component<RoomData, RoomState> {
                     initiallyExpanded={false}
                     onExpandChange={this.handleExpandChange}>
                     <CardTitle
-                        showExpandableButton={true}
+                        showExpandableButton
                         title={this.props.name} />
                     <CardText
-                        expandable={true}>
+                        expandable>
                         {this.props.lightIds.map(id => (
                             <RoomLight key={id} id={id} />
                         ))}
@@ -84,11 +82,11 @@ export default class Room extends React.Component<RoomData, RoomState> {
                     <CardActions>
                         <FlatButton
                             label="All Off"
-                            onTouchTap={this.changeLightState.bind(this, { on: false })} />
+                            onTouchTap={this.turnLightsOff} />
                         <FlatButton
                             label="All On"
-                            primary={true}
-                            onTouchTap={this.changeLightState.bind(this, { on: true })} />
+                            primary
+                            onTouchTap={this.turnLightsOn} />
                     </CardActions>
                 </Card>
                 <Snackbar
@@ -100,3 +98,10 @@ export default class Room extends React.Component<RoomData, RoomState> {
         );
     }
 }
+
+Room.propTypes = {
+    name: PropTypes.string.isRequired,
+    lightIds: PropTypes.array.isRequired
+};
+
+export default Room;

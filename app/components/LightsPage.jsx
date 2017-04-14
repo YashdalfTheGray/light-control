@@ -1,17 +1,11 @@
 import * as React from 'react';
-import { Redirect, RouteComponentProps } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import Snackbar from 'material-ui/Snackbar';
 
-import Room, { RoomData } from './Room';
+import Room from './Room';
 
-class LightsPageState {
-    rooms: RoomData[];
-    showSnackbar: boolean;
-    snackbarMessage: string;
-}
-
-export default class LightsPage extends React.Component<RouteComponentProps<any>, LightsPageState> {
-    constructor(props: any) {
+export default class LightsPage extends React.Component {
+    constructor(props) {
         super(props);
 
         this.state = {
@@ -25,19 +19,19 @@ export default class LightsPage extends React.Component<RouteComponentProps<any>
 
     async componentDidMount() {
         try {
-            const response = await fetch(`/api/rooms`, {
+            const response = await fetch('/api/rooms', {
                 headers: {
-                    'Authorization': `Bearer ${sessionStorage.getItem('userToken')}`
+                    Authorization: `Bearer ${sessionStorage.getItem('userToken')}`
                 }
             });
             const resBody = await response.json();
 
-            this.setState({
+            this.setState({ // eslint-disable-line react/no-did-mount-set-state
                 rooms: resBody
             });
         }
-        catch(e) {
-            this.setState({
+        catch (e) {
+            this.setState({ // eslint-disable-line react/no-did-mount-set-state
                 showSnackbar: true,
                 snackbarMessage: 'There was an error getting the rooms'
             });
