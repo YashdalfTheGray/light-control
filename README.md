@@ -1,6 +1,18 @@
 # light-control
 React app that controls lights in the house
 
+## Installation
+
+Clone the repository locally. The only two requirements are Docker Engine and Docker Compose.
+
+## Running the app
+
+Run the app using `docker-compose up -d`. This will start the entire service in the background. The compose file is automatically configured to restart the services.
+
+## Development
+
+For development purposes, `docker-compose up --force-recreate --build` might be better. This will display the service logs live in the terminal. It will also force the containers to be recreated and built. 
+
 ## Resources
 
 * [Async await in Express](https://strongloop.com/strongblog/async-error-handling-expressjs-es7-promises-generators/)
