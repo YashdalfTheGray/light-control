@@ -3,6 +3,7 @@ import * as PropTypes from 'prop-types';
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import Snackbar from 'material-ui/Snackbar';
+import { assign } from 'lodash';
 
 import RoomLight from './RoomLight';
 
@@ -90,8 +91,27 @@ class Room extends React.Component {
     }
 
     async changeOneLight(id) {
-        console.log(this.state);
-        console.log(id);
+        try {
+            await fetch(`api/lights/${id}`, {
+                method: 'post',
+                headers: {
+                    Authorization: `Bearer ${sessionStorage.getItem('userToken')}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ on: !this.state.lights[id] })
+            });
+            const response = await getOneLightState(id);
+            const { id: lightId, state: { on } } = await response.json();
+            this.setState({
+                lights: assign({}, this.state.lights, { [lightId]: on })
+            });
+        }
+        catch (e) {
+            this.setState({
+                showSnackbar: true,
+                snackbarMessage: 'Couldn\'t change light state'
+            });
+        }
     }
 
     async turnLightsOn() {
