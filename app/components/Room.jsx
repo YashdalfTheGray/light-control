@@ -26,14 +26,31 @@ class Room extends React.Component {
         this.state = {
             showSnackbar: false,
             expanded: false,
-            snackbarMessage: ''
+            snackbarMessage: '',
+            lights: []
         };
 
-        this.changeLightState = this.changeLightState.bind(this);
+        this.changeRoomState = this.changeRoomState.bind(this);
         this.turnLightsOn = this.turnLightsOn.bind(this);
         this.turnLightsOff = this.turnLightsOff.bind(this);
         this.handleRequestClose = this.handleRequestClose.bind(this);
         this.handleExpandChange = this.handleExpandChange.bind(this);
+    }
+
+    async componentWillMount() {
+        try {
+            const lightStates = await getAllLightStates(this.props.lightIds);
+            this.setState({
+                lights: lightStates
+            });
+        }
+        catch (e) {
+            console.log(e);
+            this.setState({
+                showSnackbar: true,
+                snackbarMessage: 'Couldn\'t get the state of each light'
+            });
+        }
     }
 
     handleRequestClose() {
@@ -49,7 +66,7 @@ class Room extends React.Component {
         });
     }
 
-    async changeLightState(state) {
+    async changeRoomState(state) {
         try {
             await fetch(`/api/rooms/${this.props.id}`, {
                 method: 'post',
@@ -58,6 +75,10 @@ class Room extends React.Component {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(state)
+            });
+            const lightStates = await getAllLightStates(this.props.lightIds);
+            this.setState({
+                lights: lightStates
             });
         }
         catch (e) {
@@ -74,11 +95,11 @@ class Room extends React.Component {
     }
 
     async turnLightsOn() {
-        return this.changeLightState({ on: true });
+        return this.changeRoomState({ on: true });
     }
 
     async turnLightsOff() {
-        return this.changeLightState({ on: false });
+        return this.changeRoomState({ on: false });
     }
 
     render() {
