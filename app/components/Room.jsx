@@ -55,6 +55,11 @@ class Room extends React.Component {
         }
     }
 
+    async changeOneLight(id) {
+        console.log(this.state);
+        console.log(id);
+    }
+
     async turnLightsOn() {
         return this.changeLightState({ on: true });
     }
@@ -76,7 +81,7 @@ class Room extends React.Component {
                     <CardText
                         expandable>
                         {this.props.lightIds.map(id => (
-                            <RoomLight key={id} id={id} />
+                            <RoomLight key={id} toggleState={this.changeOneLight.bind(this, id)} />
                         ))}
                     </CardText>
                     <CardActions>
