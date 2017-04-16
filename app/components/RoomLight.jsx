@@ -5,13 +5,13 @@ import IconButton from 'material-ui/IconButton';
 const RoomLight = props => (
     <IconButton
         iconClassName="material-icons"
-        onTouchTap={() => console.log(props.id)}>
+        onTouchTap={props.toggleState}>
         lightbulb_outline
     </IconButton>
 );
 
 RoomLight.propTypes = {
-    id: PropTypes.string.isRequired
+    toggleState: PropTypes.func.isRequired
 };
 
 export default RoomLight;
