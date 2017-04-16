@@ -6,6 +6,19 @@ import Snackbar from 'material-ui/Snackbar';
 
 import RoomLight from './RoomLight';
 
+const getOneLightState = async id => fetch(`/api/lights/${id}`, {
+    headers: {
+        Authorization: `Bearer ${sessionStorage.getItem('userToken')}`,
+        'Content-Type': 'application/json'
+    }
+});
+
+const getAllLightStates = async (lightIds) => {
+    const responses = await Promise.all(lightIds.map(i => getOneLightState(i)));
+    const lightStates = await Promise.all(responses.map(r => r.json()));
+    return lightStates.reduce((acc, { id, state: { on } }) => ({ ...acc, [id]: on }), {});
+};
+
 class Room extends React.Component {
     constructor(props) {
         super(props);
