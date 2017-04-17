@@ -43,7 +43,7 @@ export default class LoginPage extends React.Component {
                 throw new Error('Login error');
             }
             else if (response.status === 500) {
-                throw new Error('Server encountered and error');
+                throw new Error('Server error');
             }
             else {
                 const { token } = await response.json();
@@ -78,13 +78,13 @@ export default class LoginPage extends React.Component {
             });
 
             if (response.status === 500) {
-                throw new Error('The server encountered an error');
+                throw new Error('Server error');
             }
             else if (response.status === 400) {
-                throw new Error('There was an error with your request');
+                throw new Error('Bad request');
             }
             else {
-                throw new Error('Registration successful, please contact the admin for verification');
+                throw new Error('Registration successful');
             }
         }
         catch (e) {

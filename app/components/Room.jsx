@@ -49,7 +49,7 @@ class Room extends React.Component {
             console.log(e);
             this.setState({
                 showSnackbar: true,
-                snackbarMessage: 'Couldn\'t get the state of each light'
+                snackbarMessage: 'Could not get light details'
             });
         }
     }
@@ -85,7 +85,7 @@ class Room extends React.Component {
         catch (e) {
             this.setState({
                 showSnackbar: true,
-                snackbarMessage: `An error occured while turning ${state.on ? 'on' : 'off'} lights`
+                snackbarMessage: `Cannot turn lights ${state.on ? 'on' : 'off'}`
             });
         }
     }
@@ -109,7 +109,7 @@ class Room extends React.Component {
         catch (e) {
             this.setState({
                 showSnackbar: true,
-                snackbarMessage: 'Couldn\'t change light state'
+                snackbarMessage: 'Cannot change light state'
             });
         }
     }

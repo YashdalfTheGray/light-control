@@ -17,7 +17,7 @@ export default class LightsPage extends React.Component {
         this.handleRequestClose = this.handleRequestClose.bind(this);
     }
 
-    async componentDidMount() {
+    async componentWillMount() {
         try {
             const response = await fetch('/api/rooms', {
                 headers: {
@@ -26,14 +26,14 @@ export default class LightsPage extends React.Component {
             });
             const resBody = await response.json();
 
-            this.setState({ // eslint-disable-line react/no-did-mount-set-state
+            this.setState({
                 rooms: resBody
             });
         }
         catch (e) {
-            this.setState({ // eslint-disable-line react/no-did-mount-set-state
+            this.setState({
                 showSnackbar: true,
-                snackbarMessage: 'There was an error getting the rooms'
+                snackbarMessage: 'Could not find any rooms'
             });
         }
     }
