@@ -20,6 +20,10 @@ export default class LoginPage extends React.Component {
         this.handleRequestClose = this.handleRequestClose.bind(this);
     }
 
+    componentWillMount() {
+        sessionStorage.removeItem('userToken');
+    }
+
     handleNameChange(event, newValue) {
         this.setState({
             name: newValue.toLowerCase()
