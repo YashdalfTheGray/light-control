@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { createStore } from 'redux';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
@@ -7,6 +8,7 @@ import MenuItem from 'material-ui/MenuItem';
 
 import LoginPage from './LoginPage';
 import LightsPage from './LightsPage';
+import appReducer from '../reducers';
 
 function isUserLoggedIn() {
     return !!sessionStorage.getItem('userToken');
@@ -53,3 +55,5 @@ export default function AppComponent() {
         </div>
     );
 }
+
+window.appStore = createStore(appReducer);
