@@ -20,6 +20,8 @@ function appReducer(state = initialState, { type, data }) {
         return assignState({ loggingIn: false, userToken: data, snackbarMessage: '' });
     case 'LOGIN_FAILED':
         return assignState({ loggingIn: false, showSnackbar: true, snackbarMessage: data });
+    case 'SET_MESSAGE':
+        return assignState({ snackbarMessage: '' });
     default:
         return state;
     }
