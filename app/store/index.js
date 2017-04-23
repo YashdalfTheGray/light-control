@@ -8,6 +8,14 @@ const sagaMiddleware = createSagaMiddleware();
 
 const appStore = createStore(appReducer, applyMiddleware(sagaMiddleware));
 
+const actions = {
+    setUser: user => appStore.dispatch({ type: 'SET_USER', data: user }),
+    loginUser: user => appStore.dispatch({ type: 'LOGIN_REQUESTED', data: user })
+};
+
 sagaMiddleware.run(rootSaga);
 
-export default appStore;
+export default {
+    appStore,
+    actions
+};
