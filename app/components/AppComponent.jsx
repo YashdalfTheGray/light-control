@@ -7,7 +7,7 @@ import MenuItem from 'material-ui/MenuItem';
 
 import LoginPage from './LoginPage';
 import LightsPage from './LightsPage';
-import appStore from '../store';
+import { appStore } from '../store';
 
 function isUserLoggedIn() {
     return !!sessionStorage.getItem('userToken');
