@@ -1,4 +1,4 @@
-export default async function loginUser(name) {
+export async function loginUser(name) {
     const response = await fetch(`/api/users/login?name=${name}`);
 
     if (response.status === 400) {
@@ -13,4 +13,13 @@ export default async function loginUser(name) {
     else {
         return response.json();
     }
+}
+
+export async function getRooms(apiKey) {
+    const response = await fetch('/api/rooms', {
+        headers: {
+            Authorization: `Bearer ${apiKey}`
+        }
+    });
+    return response.json();
 }
