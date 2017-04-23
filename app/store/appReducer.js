@@ -3,7 +3,6 @@ import { assign } from 'lodash';
 const initialState = {
     user: '',
     userToken: '',
-    loggingIn: false,
     snackbarMessage: '',
     rooms: []
 };
@@ -14,12 +13,13 @@ function appReducer(state = initialState, { type, data }) {
     switch (type) {
     case 'SET_USER':
         return assignState({ user: data });
-    case 'LOGIN_REQUESTED':
-        return assignState({ loggingIn: true });
     case 'LOGIN_SUCCESSFUL':
-        return assignState({ loggingIn: false, userToken: data, snackbarMessage: '' });
+        return assignState({ userToken: data, snackbarMessage: '' });
+    case 'GET_ROOMS_SUCCESSFUL':
+        return assignState({ rooms: data, snackbarMessage: '' });
     case 'LOGIN_FAILED':
-        return assignState({ loggingIn: false, showSnackbar: true, snackbarMessage: data });
+    case 'GET_ROOMS_FAILED':
+        return assignState({ snackbarMessage: data });
     case 'SET_MESSAGE':
         return assignState({ snackbarMessage: '' });
     default:
