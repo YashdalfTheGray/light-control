@@ -1,24 +1,25 @@
-import { defaults } from 'lodash';
+import { assign } from 'lodash';
 
 const initialState = {
-    userName: '',
+    user: '',
     userToken: '',
     loggingIn: false,
-    showSnackbar: false,
     snackbarMessage: '',
     rooms: []
 };
 
 function appReducer(state = initialState, { type, data }) {
+    const assignState = changes => assign({}, state, changes);
+
     switch (type) {
+    case 'SET_USER':
+        return assignState({ user: data });
     case 'LOGIN_REQUESTED':
-        return defaults({ loggingIn: true }, state);
+        return assignState({ loggingIn: true });
     case 'LOGIN_SUCCESSFUL':
-        return defaults({ loggingIn: false, userToken: data }, state);
+        return assignState({ loggingIn: false, userToken: data, snackbarMessage: '' });
     case 'LOGIN_FAILED':
-        return defaults({ loggingIn: false, showSnackbar: true, snackbarMessage: data }, state);
-    case 'TEST_ACTION':
-        return defaults({ testVal: data }, state);
+        return assignState({ loggingIn: false, showSnackbar: true, snackbarMessage: data });
     default:
         return state;
     }
