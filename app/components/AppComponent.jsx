@@ -7,7 +7,7 @@ import MenuItem from 'material-ui/MenuItem';
 
 import LoginPage from './LoginPage';
 import LightsPage from './LightsPage';
-import { appStore } from '../store';
+import { actions, appStore } from '../store';
 
 function isUserLoggedIn() {
     return !!sessionStorage.getItem('userToken');
@@ -55,4 +55,7 @@ export default function AppComponent() {
     );
 }
 
+appStore.subscribe(() => console.log(appStore.getState()));
+
 window.appStore = appStore;
+window.actions = actions;
