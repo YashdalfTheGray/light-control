@@ -8,20 +8,19 @@ const initialState = {
 };
 
 function appReducer(state = initialState, { type, data }) {
-    const assignState = changes => assign({}, state, changes);
+    const assignState = changes => assign({}, state, { snackbarMessage: '' }, changes);
 
     switch (type) {
     case 'SET_USER':
         return assignState({ user: data });
     case 'LOGIN_SUCCESSFUL':
-        return assignState({ userToken: data, snackbarMessage: '' });
+        return assignState({ userToken: data });
     case 'GET_ROOMS_SUCCESSFUL':
-        return assignState({ rooms: data, snackbarMessage: '' });
+        return assignState({ rooms: data });
     case 'LOGIN_FAILED':
     case 'GET_ROOMS_FAILED':
-        return assignState({ snackbarMessage: data });
     case 'SET_MESSAGE':
-        return assignState({ snackbarMessage: '' });
+        return assignState({ snackbarMessage: data });
     default:
         return state;
     }
