@@ -31,10 +31,11 @@ async function getOneLightState(apiKey, id) {
             'Content-Type': 'application/json'
         }
     });
-    return response.json();
+    const light = await response.json();
+    return { [light.id]: light.state.on };
 }
 
 export async function getAllLightStates(apiKey, lightIds) {
     const lightStates = await Promise.all(lightIds.map(i => getOneLightState(apiKey, i)));
-    return lightStates.reduce((acc, { id, state: { on } }) => ({ ...acc, [id]: on }), {});
+    return lightStates.reduce((acc, light) => ({ ...acc, ...light }), {});
 }
