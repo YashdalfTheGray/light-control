@@ -4,7 +4,8 @@ const initialState = {
     user: '',
     userToken: '',
     snackbarMessage: '',
-    rooms: []
+    rooms: [],
+    lights: []
 };
 
 function appReducer(state = initialState, { type, data }) {
@@ -17,8 +18,11 @@ function appReducer(state = initialState, { type, data }) {
         return assignState({ userToken: data });
     case 'GET_ROOMS_SUCCESSFUL':
         return assignState({ rooms: data });
+    case 'GET_LIGHT_SUCCESSFUL':
+        return assignState({ lights: assign({}, state.lights, data) });
     case 'LOGIN_FAILED':
     case 'GET_ROOMS_FAILED':
+    case 'GET_LIGHT_FAILED':
     case 'SET_MESSAGE':
         return assignState({ snackbarMessage: data });
     default:
