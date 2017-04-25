@@ -23,3 +23,18 @@ export async function getRooms(apiKey) {
     });
     return response.json();
 }
+
+async function getOneLightState(apiKey, id) {
+    const response = await fetch(`/api/lights/${id}`, {
+        headers: {
+            Authorization: `Bearer ${apiKey}`,
+            'Content-Type': 'application/json'
+        }
+    });
+    return response.json();
+}
+
+export async function getAllLightStates(apiKey, lightIds) {
+    const lightStates = await Promise.all(lightIds.map(i => getOneLightState(apiKey, i)));
+    return lightStates.reduce((acc, { id, state: { on } }) => ({ ...acc, [id]: on }), {});
+}
