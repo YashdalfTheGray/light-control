@@ -5,7 +5,7 @@ const initialState = {
     userToken: '',
     snackbarMessage: '',
     rooms: [],
-    lights: []
+    lights: {}
 };
 
 function appReducer(state = initialState, { type, data }) {
