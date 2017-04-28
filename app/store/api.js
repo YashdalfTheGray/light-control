@@ -24,6 +24,15 @@ export async function getRooms(apiKey) {
     return response.json();
 }
 
+export async function getOneRoom(apiKey, roomId) {
+    const response = await fetch(`/api/rooms/${roomId}`, {
+        headers: {
+            Authorization: `Bearer ${apiKey}`
+        }
+    });
+    return response.json();
+}
+
 async function getOneLightState(apiKey, id) {
     const response = await fetch(`/api/lights/${id}`, {
         headers: {
