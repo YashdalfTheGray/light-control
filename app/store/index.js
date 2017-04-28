@@ -13,7 +13,7 @@ const actions = {
     loginUser: () => appStore.dispatch({ type: 'LOGIN_REQUESTED', data: appStore.getState().user }),
     setMessage: msg => appStore.dispatch({ type: 'SET_MESSAGE', data: msg }),
     getRooms: apiKey => appStore.dispatch({ type: 'GET_ROOMS_REQUESTED', data: apiKey }),
-    getOneLightState: (...args) => appStore.dispatch({ type: 'GET_LIGHT_REQUESTED', data: args })
+    getLightState: (...args) => appStore.dispatch({ type: 'GET_LIGHT_REQUESTED', data: args })
 };
 
 sagaMiddleware.run(rootSaga);

@@ -24,7 +24,7 @@ export async function getRooms(apiKey) {
     return response.json();
 }
 
-export async function getOneLightState(apiKey, id) {
+async function getOneLightState(apiKey, id) {
     const response = await fetch(`/api/lights/${id}`, {
         headers: {
             Authorization: `Bearer ${apiKey}`,
@@ -35,7 +35,7 @@ export async function getOneLightState(apiKey, id) {
     return { [light.id]: light.state.on };
 }
 
-export async function getAllLightStates(apiKey, lightIds) {
+export async function getLightStates(apiKey, ...lightIds) {
     const lightStates = await Promise.all(lightIds.map(i => getOneLightState(apiKey, i)));
     return lightStates.reduce((acc, light) => ({ ...acc, ...light }), {});
 }

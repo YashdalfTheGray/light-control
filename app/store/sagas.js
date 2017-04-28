@@ -1,6 +1,6 @@
 import { call, put, takeEvery, takeLatest } from 'redux-saga/effects';
 
-import { loginUser, getRooms, getOneLightState } from './api';
+import { loginUser, getRooms, getLightStates } from './api';
 
 export function* loginSaga({ data }) {
     try {
@@ -22,9 +22,9 @@ export function* getRoomsSaga({ data }) {
     }
 }
 
-export function* getOneLight({ data }) {
+export function* getLights({ data }) {
     try {
-        const lightState = yield call(getOneLightState, ...data);
+        const lightState = yield call(getLightStates, ...data);
         yield put({ type: 'GET_LIGHT_SUCCESSFUL', data: lightState });
     }
     catch (e) {
@@ -36,6 +36,6 @@ export default function* rootSaga() {
     yield [
         takeLatest('LOGIN_REQUESTED', loginSaga),
         takeEvery('GET_ROOMS_REQUESTED', getRoomsSaga),
-        takeEvery('GET_LIGHT_REQUESTED', getOneLight)
+        takeEvery('GET_LIGHT_REQUESTED', getLights)
     ];
 }
