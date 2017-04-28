@@ -10,6 +10,10 @@ const initialState = {
 
 function appReducer(state = initialState, { type, data }) {
     const assignState = changes => assign({}, state, { snackbarMessage: '' }, changes);
+    const mergeAndReplaceRoom = room => [
+        ...state.rooms.filter(r => r.id !== room.id),
+        room
+    ].sort((a, b) => a.id - b.id);
 
     switch (type) {
     case 'SET_USER':
@@ -18,6 +22,8 @@ function appReducer(state = initialState, { type, data }) {
         return assignState({ userToken: data });
     case 'GET_ROOMS_SUCCESSFUL':
         return assignState({ rooms: data });
+    case 'GET_ONE_ROOM_SUCCESSFUL':
+        return assignState({ rooms: mergeAndReplaceRoom(data) });
     case 'GET_LIGHT_SUCCESSFUL':
         return assignState({ lights: assign({}, state.lights, data) });
     case 'LOGIN_FAILED':
