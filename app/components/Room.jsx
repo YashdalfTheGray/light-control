@@ -20,7 +20,12 @@ const getAllLightStates = async (lightIds) => {
     return lightStates.reduce((acc, { id, state: { on } }) => ({ ...acc, [id]: on }), {});
 };
 
-class Room extends React.Component {
+export default class Room extends React.Component {
+    static propTypes = {
+        name: PropTypes.string.isRequired,
+        lightIds: PropTypes.array.isRequired
+    };
+
     constructor(props) {
         super(props);
 
@@ -157,10 +162,3 @@ class Room extends React.Component {
         );
     }
 }
-
-Room.propTypes = {
-    name: PropTypes.string.isRequired,
-    lightIds: PropTypes.array.isRequired
-};
-
-export default Room;
