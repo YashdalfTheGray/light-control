@@ -15,6 +15,26 @@ export async function loginUser(name) {
     }
 }
 
+export async function registerUser(name) {
+    const response = await fetch('/api/users/register', {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name })
+    });
+
+    if (response.status === 500) {
+        throw new Error('Server error');
+    }
+    else if (response.status === 400) {
+        throw new Error('Bad request');
+    }
+    else {
+        return response.text();
+    }
+}
+
 export async function getRooms(apiKey) {
     const response = await fetch('/api/rooms', {
         headers: {
