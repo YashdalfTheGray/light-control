@@ -36,7 +36,7 @@ async function registerUser(req, res) {
             }
         }
         else {
-            res.status(400);
+            res.sendStatus(400);
         }
     }
     catch (e) {
