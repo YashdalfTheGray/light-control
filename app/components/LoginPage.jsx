@@ -8,30 +8,31 @@ import Snackbar from 'material-ui/Snackbar';
 import { actions, appStore } from '../store';
 
 export default class LoginPage extends React.Component {
+    static propTypes = {
+        history: PropTypes.object.isRequired
+    };
+
     constructor(props) {
         super(props);
 
         this.state = {
-            name: '',
-            showSnackbar: false,
-            snackbarMessage: ''
+            showSnackbar: false
         };
 
         this.unsubscribe = appStore.subscribe(() => {
-            const { userToken } = appStore.getState();
+            const { userToken, snackbarMessage } = appStore.getState();
             if (userToken) {
-                console.log(`user logged in ${userToken}`);
+                this.props.history.push('/lights');
+            }
+            if (this.page) {
+                this.setState({
+                    showSnackbar: snackbarMessage.length !== 0
+                });
             }
         });
 
         this.handleNameChange = this.handleNameChange.bind(this);
-        this.handleLogin = this.handleLogin.bind(this);
-        this.handleRegister = this.handleRegister.bind(this);
         this.handleRequestClose = this.handleRequestClose.bind(this);
-    }
-
-    componentWillMount() {
-        sessionStorage.removeItem('userToken');
     }
 
     componentWillUnmount() {
@@ -40,9 +41,6 @@ export default class LoginPage extends React.Component {
 
     handleNameChange(event, newValue) {
         actions.setUser(newValue.toLowerCase());
-        this.setState({
-            name: newValue.toLowerCase()
-        });
     }
 
     handleRequestClose() {
@@ -51,73 +49,11 @@ export default class LoginPage extends React.Component {
         });
     }
 
-    async handleLogin() {
-        actions.loginUser();
-        try {
-            const response = await fetch(`/api/users/login?name=${this.state.name}`);
-
-            if (response.status === 400) {
-                throw new Error('Bad login request');
-            }
-            else if (response.status === 403) {
-                throw new Error('Login error');
-            }
-            else if (response.status === 500) {
-                throw new Error('Server error');
-            }
-            else {
-                const { token } = await response.json();
-
-                sessionStorage.setItem('userToken', token);
-                this.setState({
-                    showSnackbar: true,
-                    snackbarMessage: 'Login successful'
-                }, () => {
-                    this.props.history.push('/lights');
-                });
-            }
-        }
-        catch (e) {
-            this.setState({
-                showSnackbar: true,
-                snackbarMessage: e.message
-            });
-        }
-    }
-
-    async handleRegister() {
-        try {
-            const response = await fetch('/api/users/register', {
-                method: 'post',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    name: this.state.name
-                })
-            });
-
-            if (response.status === 500) {
-                throw new Error('Server error');
-            }
-            else if (response.status === 400) {
-                throw new Error('Bad request');
-            }
-            else {
-                throw new Error('Registration successful');
-            }
-        }
-        catch (e) {
-            this.setState({
-                showSnackbar: true,
-                snackbarMessage: e.message
-            });
-        }
-    }
-
     render() {
+        const { snackbarMessage } = appStore.getState();
+        const { showSnackbar } = this.state;
         return (
-            <div>
+            <div ref={lp => (this.page = lp)}>
                 <Card style={{ margin: '16px' }}>
                     <CardTitle title="Login" />
                     <CardText>
@@ -129,16 +65,16 @@ export default class LoginPage extends React.Component {
                     <CardActions>
                         <FlatButton
                             label="Register"
-                            onTouchTap={this.handleRegister} />
+                            onTouchTap={actions.registerUser} />
                         <FlatButton
                             label="Login"
                             primary
-                            onTouchTap={this.handleLogin} />
+                            onTouchTap={actions.loginUser} />
                     </CardActions>
                 </Card>
                 <Snackbar
-                    open={this.state.showSnackbar}
-                    message={this.state.snackbarMessage}
+                    open={showSnackbar}
+                    message={snackbarMessage}
                     autoHideDuration={4000}
                     onRequestClose={this.handleRequestClose} />
             </div>
