@@ -43,6 +43,10 @@ apiRouter.post('/lights/:id', wrap(authenticate), wrap(setOneLight));
 
 app.use('/api', apiRouter);
 
+app.get(/^\/(?!api).*/, (req, res) => {
+    res.sendFile(resolve(__dirname, '..', 'public', 'index.html'));
+});
+
 app.listen(port, () => console.log(`Server running on port ${chalk.green(port)}`));
 
 process.on('exit', () => {
