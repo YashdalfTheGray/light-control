@@ -1,8 +1,11 @@
 import * as React from 'react';
+import * as PropTypes from 'prop-types';
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import Snackbar from 'material-ui/Snackbar';
+
+import { actions, appStore } from '../store';
 
 export default class LoginPage extends React.Component {
     constructor(props) {
@@ -14,6 +17,13 @@ export default class LoginPage extends React.Component {
             snackbarMessage: ''
         };
 
+        this.unsubscribe = appStore.subscribe(() => {
+            const { userToken } = appStore.getState();
+            if (userToken) {
+                console.log(`user logged in ${userToken}`);
+            }
+        });
+
         this.handleNameChange = this.handleNameChange.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
         this.handleRegister = this.handleRegister.bind(this);
@@ -24,7 +34,12 @@ export default class LoginPage extends React.Component {
         sessionStorage.removeItem('userToken');
     }
 
+    componentWillUnmount() {
+        this.unsubscribe();
+    }
+
     handleNameChange(event, newValue) {
+        actions.setUser(newValue.toLowerCase());
         this.setState({
             name: newValue.toLowerCase()
         });
@@ -37,6 +52,7 @@ export default class LoginPage extends React.Component {
     }
 
     async handleLogin() {
+        actions.loginUser();
         try {
             const response = await fetch(`/api/users/login?name=${this.state.name}`);
 
