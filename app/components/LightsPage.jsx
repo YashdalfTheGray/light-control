@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Redirect } from 'react-router-dom';
 import Snackbar from 'material-ui/Snackbar';
 
+import { appStore } from '../store';
 import Room from './Room';
 
 export default class LightsPage extends React.Component {
@@ -21,7 +22,7 @@ export default class LightsPage extends React.Component {
         try {
             const response = await fetch('/api/rooms', {
                 headers: {
-                    Authorization: `Bearer ${sessionStorage.getItem('userToken')}`
+                    Authorization: `Bearer ${appStore.getState().userToken}`
                 }
             });
             const resBody = await response.json();
@@ -48,7 +49,7 @@ export default class LightsPage extends React.Component {
     render() {
         let roomsToDisplay;
 
-        if (!sessionStorage.getItem('userToken')) {
+        if (!appStore.getState().userToken) {
             return (<Redirect to="/" />);
         }
 

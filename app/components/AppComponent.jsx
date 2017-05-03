@@ -10,7 +10,7 @@ import LightsPage from './LightsPage';
 import { actions, appStore } from '../store';
 
 function isUserLoggedIn() {
-    return !!sessionStorage.getItem('userToken');
+    return !!appStore.getState().userToken;
 }
 
 async function handleMenuChange(event) {

@@ -5,11 +5,12 @@ import FlatButton from 'material-ui/FlatButton';
 import Snackbar from 'material-ui/Snackbar';
 import { assign } from 'lodash';
 
+import { appStore } from '../store';
 import RoomLight from './RoomLight';
 
 const getOneLightState = async id => fetch(`/api/lights/${id}`, {
     headers: {
-        Authorization: `Bearer ${sessionStorage.getItem('userToken')}`,
+        Authorization: `Bearer ${appStore.getState().userToken}`,
         'Content-Type': 'application/json'
     }
 });
@@ -77,7 +78,7 @@ export default class Room extends React.Component {
             await fetch(`/api/rooms/${this.props.id}`, {
                 method: 'post',
                 headers: {
-                    Authorization: `Bearer ${sessionStorage.getItem('userToken')}`,
+                    Authorization: `Bearer ${appStore.getState().userToken}`,
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(state)
@@ -100,7 +101,7 @@ export default class Room extends React.Component {
             await fetch(`api/lights/${id}`, {
                 method: 'post',
                 headers: {
-                    Authorization: `Bearer ${sessionStorage.getItem('userToken')}`,
+                    Authorization: `Bearer ${appStore.getState().userToken}`,
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ on: !this.state.lights[id] })
