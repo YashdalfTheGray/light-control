@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Redirect } from 'react-router-dom';
 import Snackbar from 'material-ui/Snackbar';
 
-import { appStore } from '../store';
+import { appStore, actions } from '../store';
 import Room from './Room';
 
 export default class LightsPage extends React.Component {
@@ -10,50 +10,39 @@ export default class LightsPage extends React.Component {
         super(props);
 
         this.state = {
-            rooms: [],
-            showSnackbar: false,
-            snackbarMessage: ''
+            showSnackbar: false
         };
+
+        this.unsubscribe = appStore.subscribe(() => {
+            this.setState({ showSnackbar: !!appStore.getState().snackbarMessage });
+        });
 
         this.handleRequestClose = this.handleRequestClose.bind(this);
     }
 
-    async componentWillMount() {
-        try {
-            const response = await fetch('/api/rooms', {
-                headers: {
-                    Authorization: `Bearer ${appStore.getState().userToken}`
-                }
-            });
-            const resBody = await response.json();
+    componentWillMount() {
+        actions.getRooms(appStore.getState().userToken);
+    }
 
-            this.setState({
-                rooms: resBody
-            });
-        }
-        catch (e) {
-            this.setState({
-                showSnackbar: true,
-                snackbarMessage: 'Could not find any rooms'
-            });
-        }
+    componentWillUnmount() {
+        this.unsubscribe();
     }
 
     handleRequestClose() {
         this.setState({
-            showSnackbar: false,
-            snackbarMessage: ''
+            showSnackbar: false
         });
     }
 
     render() {
+        const { rooms, snackbarMessage } = appStore.getState();
         let roomsToDisplay;
 
         if (!appStore.getState().userToken) {
             return (<Redirect to="/" />);
         }
 
-        if (this.state.rooms.length === 0) {
+        if (rooms.length === 0) {
             roomsToDisplay = (
                 <span style={{ fontFamily: 'Roboto', fontSize: '20px' }}>
                     No rooms to display
@@ -61,11 +50,7 @@ export default class LightsPage extends React.Component {
             );
         }
         else {
-            roomsToDisplay = this.state.rooms.map(r => (
-                <div key={r.id} style={{ fontFamily: 'Roboto', fontSize: '20px' }}>
-                    <Room key={r.id} {...r} />
-                </div>
-            ));
+            roomsToDisplay = rooms.map(r => (<Room key={r.id} {...r} />));
         }
 
         return (
@@ -73,7 +58,7 @@ export default class LightsPage extends React.Component {
                 {roomsToDisplay}
                 <Snackbar
                     open={this.state.showSnackbar}
-                    message={this.state.snackbarMessage}
+                    message={snackbarMessage}
                     autoHideDuration={4000}
                     onRequestClose={this.handleRequestClose} />
             </div>
