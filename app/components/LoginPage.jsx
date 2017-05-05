@@ -3,7 +3,6 @@ import * as PropTypes from 'prop-types';
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
-import Snackbar from 'material-ui/Snackbar';
 
 import { actions, appStore } from '../store';
 
@@ -20,19 +19,13 @@ export default class LoginPage extends React.Component {
         };
 
         this.unsubscribe = appStore.subscribe(() => {
-            const { userToken, snackbarMessage } = appStore.getState();
+            const { userToken } = appStore.getState();
             if (userToken) {
                 this.props.history.push('/lights');
-            }
-            if (this.page) {
-                this.setState({
-                    showSnackbar: snackbarMessage.length !== 0
-                });
             }
         });
 
         this.handleNameChange = this.handleNameChange.bind(this);
-        this.handleRequestClose = this.handleRequestClose.bind(this);
     }
 
     componentWillUnmount() {
@@ -40,20 +33,12 @@ export default class LoginPage extends React.Component {
     }
 
     handleNameChange(event, newValue) {
-        actions.setUser(newValue.toLowerCase());
-    }
-
-    handleRequestClose() {
-        this.setState({
-            showSnackbar: false
-        });
+        actions.setUser(newValue);
     }
 
     render() {
-        const { snackbarMessage } = appStore.getState();
-        const { showSnackbar } = this.state;
         return (
-            <div ref={lp => (this.page = lp)}>
+            <div>
                 <Card style={{ margin: '16px' }}>
                     <CardTitle title="Login" />
                     <CardText>
@@ -72,11 +57,6 @@ export default class LoginPage extends React.Component {
                             onTouchTap={actions.loginUser} />
                     </CardActions>
                 </Card>
-                <Snackbar
-                    open={showSnackbar}
-                    message={snackbarMessage}
-                    autoHideDuration={4000}
-                    onRequestClose={this.handleRequestClose} />
             </div>
         );
     }
