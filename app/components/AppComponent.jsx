@@ -4,6 +4,7 @@ import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
+import Snackbar from 'material-ui/Snackbar';
 
 import LoginPage from './LoginPage';
 import LightsPage from './LightsPage';
@@ -17,13 +18,16 @@ export default class AppComponent extends React.Component {
         super(props);
 
         this.state = {
-            showMenu: false
+            showMenu: false,
+            showSnackbar: false
         };
 
         this.unsubscribe = appStore.subscribe(() => {
             console.log(appStore.getState());
+            const { userToken, snackbarMessage } = appStore.getState();
             this.setState({
-                showMenu: !!appStore.getState().userToken
+                showMenu: !!userToken,
+                showSnackbar: !!snackbarMessage
             });
         });
     }
@@ -36,8 +40,16 @@ export default class AppComponent extends React.Component {
         console.log(event.currentTarget.innerText, this.state.showMenu);
     }
 
+    handleRequestClose() {
+        actions.clearMessage();
+        this.setState({
+            showSnackbar: false
+        });
+    }
+
     render() {
-        const { showMenu } = this.state;
+        const { showMenu, showSnackbar } = this.state;
+        const { snackbarMessage } = appStore.getState();
 
         const moreButton = (
             <IconButton
@@ -66,6 +78,11 @@ export default class AppComponent extends React.Component {
                     title="Light Control"
                     iconElementRight={showMenu ? moreMenu : null}
                     showMenuIconButton={false} />
+                <Snackbar
+                    open={showSnackbar}
+                    message={snackbarMessage}
+                    autoHideDuration={4000}
+                    onRequestClose={this.handleRequestClose} />
                 <Router>
                     <div>
                         <Route exact path="/" component={LoginPage} />
