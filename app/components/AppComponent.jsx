@@ -30,14 +30,22 @@ export default class AppComponent extends React.Component {
                 showSnackbar: !!snackbarMessage
             });
         });
+
+        this.handleMenuChange = this.handleMenuChange.bind(this);
+        this.handleRequestClose = this.handleRequestClose.bind(this);
     }
 
     componentWillUnmount() {
         this.unsubscribe();
     }
 
-    handleMenuChange(event) {
-        console.log(event.currentTarget.innerText, this.state.showMenu);
+    handleMenuChange({ currentTarget: { innerText } }) {
+        switch (innerText) {
+        case 'Logout':
+            actions.logoutUser();
+            break;
+        default:
+        }
     }
 
     handleRequestClose() {
