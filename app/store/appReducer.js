@@ -26,6 +26,8 @@ function appReducer(state = initialState, { type, data }) {
         return assignState({ rooms: mergeAndReplaceRoom(data) });
     case 'GET_LIGHT_SUCCESSFUL':
         return assignState({ lights: assign({}, state.lights, data) });
+    case 'LOGOUT_USER':
+        return initialState;
     case 'REGISTRATION_SUCCESSFUL':
     case 'LOGIN_FAILED':
     case 'REGISTRATION_FAILED':
