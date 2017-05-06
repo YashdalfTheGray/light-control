@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Redirect } from 'react-router-dom';
-import Snackbar from 'material-ui/Snackbar';
 
 import { appStore, actions } from '../store';
 import Room from './Room';
@@ -10,17 +9,17 @@ export default class LightsPage extends React.Component {
         super(props);
 
         this.state = {
-            showSnackbar: false
+            rooms: []
         };
 
         this.unsubscribe = appStore.subscribe(() => {
-            this.setState({ showSnackbar: !!appStore.getState().snackbarMessage });
+            this.setState({
+                rooms: appStore.getState().rooms
+            });
         });
-
-        this.handleRequestClose = this.handleRequestClose.bind(this);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         actions.getRooms(appStore.getState().userToken);
     }
 
@@ -28,14 +27,8 @@ export default class LightsPage extends React.Component {
         this.unsubscribe();
     }
 
-    handleRequestClose() {
-        this.setState({
-            showSnackbar: false
-        });
-    }
-
     render() {
-        const { rooms, snackbarMessage } = appStore.getState();
+        const { rooms } = this.state;
         let roomsToDisplay;
 
         if (!appStore.getState().userToken) {
@@ -56,11 +49,6 @@ export default class LightsPage extends React.Component {
         return (
             <div className="list" style={{ margin: '16px' }}>
                 {roomsToDisplay}
-                <Snackbar
-                    open={this.state.showSnackbar}
-                    message={snackbarMessage}
-                    autoHideDuration={4000}
-                    onRequestClose={this.handleRequestClose} />
             </div>
         );
     }
