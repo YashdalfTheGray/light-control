@@ -14,10 +14,6 @@ export default class LoginPage extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            showSnackbar: false
-        };
-
         this.unsubscribe = appStore.subscribe(() => {
             const { userToken } = appStore.getState();
             if (userToken) {
