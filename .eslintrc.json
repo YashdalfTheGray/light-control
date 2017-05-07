@@ -4,8 +4,7 @@
     "plugins": [
         "react",
         "jsx-a11y",
-        "import",
-        "class-property"
+        "import"
     ],
     "env": {
         "browser": true,
@@ -23,7 +22,6 @@
         "no-console": ["off"],
         "no-param-reassign": ["error", { "props": true, "ignorePropertyModificationsFor": ["res"] }],
         "object-shorthand": ["error", "consistent-as-needed"],
-        "class-property/class-property-semicolon": ["error", "always"],
         "react/forbid-prop-types": ["off"],
         "react/jsx-closing-bracket-location": ["off"],
         "react/jsx-indent": ["error", 4],
