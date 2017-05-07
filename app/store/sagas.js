@@ -45,10 +45,10 @@ export function* getOneRoomSaga({ data }) {
 export function* getLights({ data }) {
     try {
         const lightState = yield call(getLightStates, ...data);
-        yield put({ type: 'GET_LIGHT_SUCCESSFUL', data: lightState });
+        yield put({ type: 'GET_LIGHTS_SUCCESSFUL', data: lightState });
     }
     catch (e) {
-        yield put({ type: 'GET_LIGHT_FAILED', data: e.message });
+        yield put({ type: 'GET_LIGHTS_FAILED', data: e.message });
     }
 }
 
@@ -58,6 +58,6 @@ export default function* rootSaga() {
         takeLatest('REGISTRATION_REQUESTED', registerSaga),
         takeEvery('GET_ROOMS_REQUESTED', getRoomsSaga),
         takeEvery('GET_ONE_ROOM_REQUESTED', getOneRoomSaga),
-        takeEvery('GET_LIGHT_REQUESTED', getLights)
+        takeEvery('GET_LIGHTS_REQUESTED', getLights)
     ];
 }
