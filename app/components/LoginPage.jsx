@@ -34,26 +34,24 @@ export default class LoginPage extends React.Component {
 
     render() {
         return (
-            <div>
-                <Card style={{ margin: '16px' }}>
-                    <CardTitle title="Login" />
-                    <CardText>
-                        <TextField
-                            floatingLabelText="Name"
-                            fullWidth
-                            onChange={this.handleNameChange} />
-                    </CardText>
-                    <CardActions>
-                        <FlatButton
-                            label="Register"
-                            onTouchTap={actions.registerUser} />
-                        <FlatButton
-                            label="Login"
-                            primary
-                            onTouchTap={actions.loginUser} />
-                    </CardActions>
-                </Card>
-            </div>
+            <Card style={{ margin: '16px' }}>
+                <CardTitle title="Login" />
+                <CardText>
+                    <TextField
+                        floatingLabelText="Name"
+                        fullWidth
+                        onChange={this.handleNameChange} />
+                </CardText>
+                <CardActions>
+                    <FlatButton
+                        label="Register"
+                        onTouchTap={actions.registerUser} />
+                    <FlatButton
+                        label="Login"
+                        primary
+                        onTouchTap={actions.loginUser} />
+                </CardActions>
+            </Card>
         );
     }
 }
