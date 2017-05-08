@@ -2,7 +2,6 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
-import Snackbar from 'material-ui/Snackbar';
 import { assign } from 'lodash';
 
 import { appStore } from '../store';
@@ -40,7 +39,6 @@ export default class Room extends React.Component {
         this.changeRoomState = this.changeRoomState.bind(this);
         this.turnLightsOn = this.turnLightsOn.bind(this);
         this.turnLightsOff = this.turnLightsOff.bind(this);
-        this.handleRequestClose = this.handleRequestClose.bind(this);
         this.handleExpandChange = this.handleExpandChange.bind(this);
     }
 
@@ -58,13 +56,6 @@ export default class Room extends React.Component {
                 snackbarMessage: 'Could not get light details'
             });
         }
-    }
-
-    handleRequestClose() {
-        this.setState({
-            showSnackbar: false,
-            snackbarMessage: ''
-        });
     }
 
     handleExpandChange(newState) {
@@ -130,36 +121,29 @@ export default class Room extends React.Component {
 
     render() {
         return (
-            <div>
-                <Card
-                    expanded={this.state.expanded}
-                    initiallyExpanded={false}
-                    onExpandChange={this.handleExpandChange}>
-                    <CardTitle
-                        showExpandableButton
-                        title={this.props.name} />
-                    <CardText
-                        expandable>
-                        {this.props.lightIds.map(id => (
-                            <RoomLight key={id} toggleState={this.changeOneLight.bind(this, id)} />
-                        ))}
-                    </CardText>
-                    <CardActions>
-                        <FlatButton
-                            label="All Off"
-                            onTouchTap={this.turnLightsOff} />
-                        <FlatButton
-                            label="All On"
-                            primary
-                            onTouchTap={this.turnLightsOn} />
-                    </CardActions>
-                </Card>
-                <Snackbar
-                    open={this.state.showSnackbar}
-                    message={this.state.snackbarMessage}
-                    autoHideDuration={4000}
-                    onRequestClose={this.handleRequestClose} />
-            </div>
+            <Card
+                expanded={this.state.expanded}
+                initiallyExpanded={false}
+                onExpandChange={this.handleExpandChange}>
+                <CardTitle
+                    showExpandableButton
+                    title={this.props.name} />
+                <CardText
+                    expandable>
+                    {this.props.lightIds.map(id => (
+                        <RoomLight key={id} toggleState={this.changeOneLight.bind(this, id)} />
+                    ))}
+                </CardText>
+                <CardActions>
+                    <FlatButton
+                        label="All Off"
+                        onTouchTap={this.turnLightsOff} />
+                    <FlatButton
+                        label="All On"
+                        primary
+                        onTouchTap={this.turnLightsOn} />
+                </CardActions>
+            </Card>
         );
     }
 }
