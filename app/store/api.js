@@ -53,6 +53,19 @@ export async function getOneRoom(apiKey, roomId) {
     return response.json();
 }
 
+export async function setOneRoom(apiKey, roomId, state) {
+    await fetch(`/api/rooms/${roomId}`, {
+        method: 'post',
+        headers: {
+            Authorization: `Bearer ${apiKey}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(state)
+    });
+
+    return getOneRoom(apiKey, roomId);
+}
+
 async function getOneLightState(apiKey, id) {
     const response = await fetch(`/api/lights/${id}`, {
         headers: {
@@ -64,7 +77,23 @@ async function getOneLightState(apiKey, id) {
     return { [light.id]: light.state.on };
 }
 
+export async function setOneLightState(apiKey, id, state) {
+    await fetch(`api/lights/${id}`, {
+        method: 'post',
+        headers: {
+            Authorization: `Bearer ${apiKey}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(state)
+    });
+
+    return getOneLightState(apiKey, id);
+}
+
 export async function getLightStates(apiKey, ...lightIds) {
     const lightStates = await Promise.all(lightIds.map(i => getOneLightState(apiKey, i)));
     return lightStates.reduce((acc, light) => ({ ...acc, ...light }), {});
 }
+
+window.setOneRoom = setOneRoom;
+window.setOneLightState = setOneLightState;
