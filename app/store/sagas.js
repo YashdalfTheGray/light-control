@@ -45,10 +45,10 @@ export function* getOneRoomSaga({ data }) {
 async function* setOneRoomSaga({ data }) {
     try {
         const room = yield call(setOneRoom, ...data);
-        yield put({ type: 'GET_ONE_ROOM_SUCCESSFUL', data: room });
+        yield put({ type: 'SET_ONE_ROOM_SUCCESSFUL', data: room });
     }
     catch (e) {
-        yield put({ type: 'GET_ONE_ROOM_FAILED', data: e.message });
+        yield put({ type: 'SET_ONE_ROOM_FAILED', data: e.message });
     }
 }
 
