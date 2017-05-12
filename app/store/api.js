@@ -77,6 +77,11 @@ async function getOneLightState(apiKey, id) {
     return { [light.id]: light.state.on };
 }
 
+export async function getLightStates(apiKey, ...lightIds) {
+    const lightStates = await Promise.all(lightIds.map(i => getOneLightState(apiKey, i)));
+    return lightStates.reduce((acc, light) => ({ ...acc, ...light }), {});
+}
+
 export async function setOneLightState(apiKey, id, state) {
     await fetch(`api/lights/${id}`, {
         method: 'post',
@@ -87,13 +92,5 @@ export async function setOneLightState(apiKey, id, state) {
         body: JSON.stringify(state)
     });
 
-    return getOneLightState(apiKey, id);
+    return getLightStates(apiKey, id);
 }
-
-export async function getLightStates(apiKey, ...lightIds) {
-    const lightStates = await Promise.all(lightIds.map(i => getOneLightState(apiKey, i)));
-    return lightStates.reduce((acc, light) => ({ ...acc, ...light }), {});
-}
-
-window.setOneRoom = setOneRoom;
-window.setOneLightState = setOneLightState;
