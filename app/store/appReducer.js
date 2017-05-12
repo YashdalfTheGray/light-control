@@ -23,6 +23,7 @@ function appReducer(state = initialState, { type, data }) {
     case 'GET_ROOMS_SUCCESSFUL':
         return assignState({ rooms: data });
     case 'GET_ONE_ROOM_SUCCESSFUL':
+    case 'SET_ONE_ROOM_SUCCESSFUL':
         return assignState({ rooms: mergeAndReplaceRoom(data) });
     case 'GET_LIGHTS_SUCCESSFUL':
         return assignState({ lights: assign({}, state.lights, data) });
