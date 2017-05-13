@@ -9,16 +9,12 @@ export default class LightsPage extends React.Component {
         super(props);
 
         this.state = {
-            rooms: [],
-            lights: {}
+            rooms: []
         };
 
         this.unsubscribe = appStore.subscribe(() => {
-            const { rooms, lights } = appStore.getState();
-            this.setState({
-                rooms,
-                lights
-            });
+            const { rooms } = appStore.getState();
+            this.setState({ rooms });
         });
     }
 
