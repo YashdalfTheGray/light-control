@@ -42,7 +42,7 @@ export function* getOneRoomSaga({ data }) {
     }
 }
 
-async function* setOneRoomSaga({ data }) {
+export function* setOneRoomSaga({ data }) {
     try {
         const room = yield call(setOneRoom, ...data);
         yield put({ type: 'SET_ONE_ROOM_SUCCESSFUL', data: room });
