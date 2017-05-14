@@ -19,7 +19,10 @@ export default class LightsPage extends React.Component {
     }
 
     componentWillMount() {
-        actions.getRooms(appStore.getState().userToken);
+        const { userToken } = appStore.getState();
+        if (userToken) {
+            actions.getRooms(userToken);
+        }
     }
 
     componentWillUnmount() {
