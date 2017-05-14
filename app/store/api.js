@@ -35,41 +35,41 @@ export async function registerUser(name) {
     }
 }
 
-export async function getRooms(apiKey) {
+export async function getRooms(userToken) {
     const response = await fetch('/api/rooms', {
         headers: {
-            Authorization: `Bearer ${apiKey}`
+            Authorization: `Bearer ${userToken}`
         }
     });
     return response.json();
 }
 
-export async function getOneRoom(apiKey, roomId) {
+export async function getOneRoom(userToken, roomId) {
     const response = await fetch(`/api/rooms/${roomId}`, {
         headers: {
-            Authorization: `Bearer ${apiKey}`
+            Authorization: `Bearer ${userToken}`
         }
     });
     return response.json();
 }
 
-export async function setOneRoom(apiKey, roomId, state) {
+export async function setOneRoom(userToken, roomId, state) {
     await fetch(`/api/rooms/${roomId}`, {
         method: 'post',
         headers: {
-            Authorization: `Bearer ${apiKey}`,
+            Authorization: `Bearer ${userToken}`,
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(state)
     });
 
-    return getOneRoom(apiKey, roomId);
+    return getOneRoom(userToken, roomId);
 }
 
-async function getOneLightState(apiKey, id) {
+async function getOneLightState(userToken, id) {
     const response = await fetch(`/api/lights/${id}`, {
         headers: {
-            Authorization: `Bearer ${apiKey}`,
+            Authorization: `Bearer ${userToken}`,
             'Content-Type': 'application/json'
         }
     });
@@ -77,20 +77,20 @@ async function getOneLightState(apiKey, id) {
     return { [light.id]: light.state.on };
 }
 
-export async function getLightStates(apiKey, ...lightIds) {
-    const lightStates = await Promise.all(lightIds.map(i => getOneLightState(apiKey, i)));
+export async function getLightStates(userToken, ...lightIds) {
+    const lightStates = await Promise.all(lightIds.map(i => getOneLightState(userToken, i)));
     return lightStates.reduce((acc, light) => ({ ...acc, ...light }), {});
 }
 
-export async function setOneLightState(apiKey, id, state) {
+export async function setOneLightState(userToken, id, state) {
     await fetch(`api/lights/${id}`, {
         method: 'post',
         headers: {
-            Authorization: `Bearer ${apiKey}`,
+            Authorization: `Bearer ${userToken}`,
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(state)
     });
 
-    return getLightStates(apiKey, id);
+    return getLightStates(userToken, id);
 }
