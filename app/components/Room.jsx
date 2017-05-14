@@ -18,7 +18,7 @@ export default class Room extends React.Component {
 
         this.state = {
             expanded: false,
-            lights: []
+            lights: {}
         };
 
         this.unsubscribe = appStore.subscribe(() => {
@@ -66,10 +66,12 @@ export default class Room extends React.Component {
                 <CardTitle
                     showExpandableButton
                     title={this.props.name} />
-                <CardText
-                    expandable>
+                <CardText expandable>
                     {this.props.lightIds.map(id => (
-                        <RoomLight key={id} toggleState={this.changeOneLight.bind(this, id)} />
+                        <RoomLight
+                            key={id}
+                            lightState={this.state.lights[id] || false}
+                            toggleState={this.changeOneLight.bind(this, id)} />
                     ))}
                 </CardText>
                 <CardActions>
