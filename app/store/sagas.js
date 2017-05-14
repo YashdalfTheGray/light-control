@@ -46,6 +46,8 @@ export function* setOneRoomSaga({ data }) {
     try {
         const room = yield call(setOneRoom, ...data);
         yield put({ type: 'SET_ONE_ROOM_SUCCESSFUL', data: room });
+        const lightStates = yield call(getLightStates, data[0], ...room.lightIds);
+        yield put({ type: 'GET_LIGHTS_SUCCESSFUL', data: lightStates });
     }
     catch (e) {
         yield put({ type: 'SET_ONE_ROOM_FAILED', data: e.message });
