@@ -26,6 +26,7 @@ function appReducer(state = initialState, { type, data }) {
     case 'SET_ONE_ROOM_SUCCESSFUL':
         return assignState({ rooms: mergeAndReplaceRoom(data) });
     case 'GET_LIGHTS_SUCCESSFUL':
+    case 'SET_LIGHT_SUCCESSFUL':
         return assignState({ lights: assign({}, state.lights, data) });
     case 'LOGOUT_USER':
         return initialState;
@@ -34,6 +35,8 @@ function appReducer(state = initialState, { type, data }) {
     case 'REGISTRATION_FAILED':
     case 'GET_ROOMS_FAILED':
     case 'GET_LIGHTS_FAILED':
+    case 'SET_ONE_ROOM_FAILED':
+    case 'SET_LIGHT_FAILED':
     case 'SET_MESSAGE':
         return assignState({ snackbarMessage: data });
     default:
