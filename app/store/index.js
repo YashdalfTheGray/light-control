@@ -18,7 +18,8 @@ const actions = {
     getRooms: apiKey => appStore.dispatch({ type: 'GET_ROOMS_REQUESTED', data: apiKey }),
     getOneRoom: (...args) => appStore.dispatch({ type: 'GET_ONE_ROOM_REQUESTED', data: args }),
     setOneRoom: (...args) => appStore.dispatch({ type: 'SET_ONE_ROOM_REQUESTED', data: args }),
-    getLightStates: (...args) => appStore.dispatch({ type: 'GET_LIGHTS_REQUESTED', data: args })
+    getLightStates: (...args) => appStore.dispatch({ type: 'GET_LIGHTS_REQUESTED', data: args }),
+    setLightState: (...args) => appStore.dispatch({ type: 'SET_LIGHT_REQUESTED', data: args })
 };
 
 sagaMiddleware.run(rootSaga);
