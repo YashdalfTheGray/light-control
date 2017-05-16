@@ -46,7 +46,7 @@ export default class Room extends React.Component {
     }
 
     changeOneLight(id) {
-        console.log(`Changing state for ${id} still needs implemented`);
+        actions.setLightState(appStore.getState().userToken, id, { on: !this.state.lights[id] });
     }
 
     turnLightsOn() {
