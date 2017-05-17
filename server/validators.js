@@ -1,11 +1,11 @@
 const { get } = require('lodash');
 
-function validateRequestBody(key) {
+function validate(location, message, key) {
     return (req, res, next) => {
-        if (!get(req.body, key)) {
+        if (!get(req[location], key)) {
             res.status(400).json({
                 status: 'error',
-                message: 'malformed request body'
+                message: message
             });
         }
         else {
@@ -14,19 +14,8 @@ function validateRequestBody(key) {
     };
 }
 
-function validateQueryParam(key) {
-    return (req, res, next) => {
-        if (!get(req.query, key)) {
-            res.status(400).json({
-                status: 'error',
-                message: 'request missing query parameters'
-            });
-        }
-        else {
-            next();
-        }
-    };
-}
+const validateRequestBody = validate.bind(null, 'body', 'malformed request body');
+const validateQueryParam = validate.bind(null, 'query', 'request missing query parameters');
 
 module.exports = {
     validateRequestBody,
