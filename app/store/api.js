@@ -35,6 +35,22 @@ export async function registerUser(name) {
     }
 }
 
+export async function deleteAccount(name) {
+    const response = await fetch(`/api/users/${name}`, {
+        method: 'delete'
+    });
+
+    if (response.status === 500) {
+        throw new Error('Server error');
+    }
+    else if (response.status === 400) {
+        throw new Error('Bad Request');
+    }
+    else {
+        return response.json();
+    }
+}
+
 export async function getRooms(userToken) {
     const response = await fetch('/api/rooms', {
         headers: {
