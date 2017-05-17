@@ -30,7 +30,7 @@ apiRouter.get('/', (req, res) => {
 
 apiRouter.post('/users/register', validateRequestBody('name'), wrap(registerUser));
 apiRouter.get('/users/login', validateQueryParam('name'), wrap(loginUser));
-apiRouter.delete('/users/:name', validateRequestBody('name'), wrap(authenticate), wrap(deleteUser));
+apiRouter.delete('/users/:name', wrap(authenticate), wrap(deleteUser));
 
 apiRouter.get('/hue/status', wrap(authenticate), wrap(getStatus));
 
