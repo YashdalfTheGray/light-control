@@ -29,10 +29,12 @@ function appReducer(state = initialState, { type, data }) {
     case 'SET_LIGHT_SUCCESSFUL':
         return assignState({ lights: assign({}, state.lights, data) });
     case 'LOGOUT_USER':
+    case 'DELETE_ACCOUNT_SUCCESSFUL':
         return initialState;
     case 'REGISTRATION_SUCCESSFUL':
     case 'LOGIN_FAILED':
     case 'REGISTRATION_FAILED':
+    case 'DELETE_ACCOUNT_FAILED':
     case 'GET_ROOMS_FAILED':
     case 'GET_LIGHTS_FAILED':
     case 'SET_ONE_ROOM_FAILED':
