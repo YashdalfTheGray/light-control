@@ -19,5 +19,8 @@ module.exports = {
                 exclude: /node_modules/
             }
         ]
+    },
+    stats: {
+        colors: true
     }
 };
