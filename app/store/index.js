@@ -1,18 +1,21 @@
 import { createStore, applyMiddleware } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction';
 import createSagaMiddleware from 'redux-saga';
 
 import appReducer from './appReducer';
 import rootSaga from './sagas';
 
 const sagaMiddleware = createSagaMiddleware();
+const composeEnhancers = composeWithDevTools({});
 
-const appStore = createStore(appReducer, applyMiddleware(sagaMiddleware));
+const appStore = createStore(appReducer, composeEnhancers(applyMiddleware(sagaMiddleware)));
 
 const actions = {
     setUser: user => appStore.dispatch({ type: 'SET_USER', data: user.toLowerCase() }),
     loginUser: () => appStore.dispatch({ type: 'LOGIN_REQUESTED', data: appStore.getState().user }),
     registerUser: () => appStore.dispatch({ type: 'REGISTRATION_REQUESTED', data: appStore.getState().user }),
     logoutUser: () => appStore.dispatch({ type: 'LOGOUT_USER' }),
+    deleteAccount: () => appStore.dispatch({ type: 'DELETE_ACCOUNT_REQUESTED', data: appStore.getState().user }),
     setMessage: msg => appStore.dispatch({ type: 'SET_MESSAGE', data: msg }),
     clearMessage: () => appStore.dispatch({ type: 'SET_MESSAGE', data: '' }),
     getRooms: apiKey => appStore.dispatch({ type: 'GET_ROOMS_REQUESTED', data: apiKey }),
