@@ -20,16 +20,10 @@ export default class LoginPage extends React.Component {
                 this.props.history.push('/lights');
             }
         });
-
-        this.handleNameChange = this.handleNameChange.bind(this);
     }
 
     componentWillUnmount() {
         this.unsubscribe();
-    }
-
-    handleNameChange(event, newValue) {
-        actions.setUser(newValue);
     }
 
     render() {
@@ -40,7 +34,7 @@ export default class LoginPage extends React.Component {
                     <TextField
                         floatingLabelText="Name"
                         fullWidth
-                        onChange={this.handleNameChange} />
+                        onChange={(e, v) => actions.setUser(v)} />
                 </CardText>
                 <CardActions>
                     <FlatButton
