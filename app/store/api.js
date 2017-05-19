@@ -35,9 +35,12 @@ export async function registerUser(name) {
     }
 }
 
-export async function deleteAccount(name) {
+export async function deleteAccount(userToken, name) {
     const response = await fetch(`/api/users/${name}`, {
-        method: 'delete'
+        method: 'delete',
+        headers: {
+            Authorization: `Bearer ${userToken}`
+        }
     });
 
     if (response.status === 500) {
@@ -45,6 +48,9 @@ export async function deleteAccount(name) {
     }
     else if (response.status === 400) {
         throw new Error('Bad Request');
+    }
+    else if (response.status === 401) {
+        throw new Error('Unauthorized');
     }
     else {
         return response.json();
