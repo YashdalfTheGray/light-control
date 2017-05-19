@@ -23,7 +23,6 @@ export default class AppComponent extends React.Component {
         };
 
         this.unsubscribe = appStore.subscribe(() => {
-            console.log(appStore.getState());
             const { userToken, snackbarMessage } = appStore.getState();
             this.setState({
                 showMenu: !!userToken,
@@ -31,21 +30,11 @@ export default class AppComponent extends React.Component {
             });
         });
 
-        this.handleMenuChange = this.handleMenuChange.bind(this);
         this.handleRequestClose = this.handleRequestClose.bind(this);
     }
 
     componentWillUnmount() {
         this.unsubscribe();
-    }
-
-    handleMenuChange({ currentTarget: { innerText } }) {
-        switch (innerText) {
-        case 'Logout':
-            actions.logoutUser();
-            break;
-        default:
-        }
     }
 
     handleRequestClose() {
@@ -74,9 +63,11 @@ export default class AppComponent extends React.Component {
                 targetOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'top' }}>
                 <MenuItem
-                    primaryText="Delete Account" />
+                    primaryText="Delete Account"
+                    onTouchTap={() => console.log('delete account clicked')} />
                 <MenuItem
-                    primaryText="Logout" />
+                    primaryText="Logout"
+                    onTouchTap={() => actions.logoutUser()} />
             </IconMenu>
         );
 
