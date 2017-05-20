@@ -33,7 +33,7 @@ export function* registerSaga({ data }) {
 
 export function* deleteSaga({ data }) {
     try {
-        yield call(deleteAccount, data);
+        yield call(deleteAccount, ...data);
         yield put({ type: 'DELETE_ACCOUNT_SUCCESSFUL' });
     }
     catch (e) {
