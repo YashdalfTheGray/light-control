@@ -14,7 +14,9 @@ export default class LightsPage extends React.Component {
 
         this.unsubscribe = appStore.subscribe(() => {
             const { rooms } = appStore.getState();
-            this.setState({ rooms });
+            if (this.component) {
+                this.setState({ rooms });
+            }
         });
     }
 
@@ -49,7 +51,7 @@ export default class LightsPage extends React.Component {
         }
 
         return (
-            <div className="list" style={{ margin: '16px' }}>
+            <div className="list" style={{ margin: '16px' }} ref={c => (this.component = c)}>
                 {roomsToDisplay}
             </div>
         );

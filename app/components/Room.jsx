@@ -23,7 +23,9 @@ export default class Room extends React.Component {
 
         this.unsubscribe = appStore.subscribe(() => {
             const { lights } = appStore.getState();
-            this.setState({ lights });
+            if (this.component) {
+                this.setState({ lights });
+            }
         });
 
         this.turnLightsOn = this.turnLightsOn.bind(this);
@@ -62,7 +64,8 @@ export default class Room extends React.Component {
             <Card
                 expanded={this.state.expanded}
                 initiallyExpanded={false}
-                onExpandChange={this.handleExpandChange}>
+                onExpandChange={this.handleExpandChange}
+                ref={c => (this.component = c)}>
                 <CardTitle
                     showExpandableButton
                     title={this.props.name} />
