@@ -1,5 +1,7 @@
 const request = require('request-promise');
 
+const { logError, logGetAllRooms } = require('./events');
+
 async function getStatus(req, res) {
     try {
         const { status } = await request({
@@ -24,9 +26,11 @@ async function getAllRooms(req, res) {
             }
         });
         res.json(response);
+        logGetAllRooms(res.locals.user._id); // eslint-disable-line no-underscore-dangle
     }
     catch (e) {
         res.status(500).json(e);
+        logError(e);
     }
 }
 
