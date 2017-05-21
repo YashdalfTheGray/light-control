@@ -5,13 +5,12 @@ import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import Snackbar from 'material-ui/Snackbar';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
 
 import LoginPage from './LoginPage';
 import LightsPage from './LightsPage';
 import { actions, appStore } from '../store';
-
-window.appStore = appStore;
-window.actions = actions;
 
 export default class AppComponent extends React.Component {
     constructor(props) {
@@ -19,7 +18,8 @@ export default class AppComponent extends React.Component {
 
         this.state = {
             showMenu: false,
-            showSnackbar: false
+            showSnackbar: false,
+            showDialog: false
         };
 
         this.unsubscribe = appStore.subscribe(() => {
@@ -31,6 +31,8 @@ export default class AppComponent extends React.Component {
         });
 
         this.handleRequestClose = this.handleRequestClose.bind(this);
+        this.handleDialogOpen = this.handleDialogOpen.bind(this);
+        this.handleDialogClose = this.handleDialogClose.bind(this);
     }
 
     componentWillUnmount() {
@@ -39,9 +41,19 @@ export default class AppComponent extends React.Component {
 
     handleRequestClose() {
         actions.clearMessage();
-        this.setState({
-            showSnackbar: false
-        });
+        this.setState({ showSnackbar: false });
+    }
+
+    handleDialogOpen() {
+        this.setState({ showDialog: true });
+    }
+
+    handleDialogClose(deleteAccount) {
+        const { userToken, user } = appStore.getState();
+        if (deleteAccount) {
+            actions.deleteAccount(userToken, user);
+        }
+        this.setState({ showDialog: false });
     }
 
     render() {
@@ -64,12 +76,23 @@ export default class AppComponent extends React.Component {
                 anchorOrigin={{ horizontal: 'right', vertical: 'top' }}>
                 <MenuItem
                     primaryText="Delete Account"
-                    onTouchTap={() => console.log('delete account clicked')} />
+                    onTouchTap={this.handleDialogOpen} />
                 <MenuItem
                     primaryText="Logout"
-                    onTouchTap={() => actions.logoutUser()} />
+                    onTouchTap={actions.logoutUser} />
             </IconMenu>
         );
+
+        const dialogActions = [
+            <FlatButton
+                primary
+                label="Cancel"
+                onTouchTap={() => this.handleDialogClose(false)} />,
+            <FlatButton
+                primary
+                label="Delete"
+                onTouchTap={() => this.handleDialogClose(true)} />
+        ];
 
         return (
             <div>
@@ -88,6 +111,13 @@ export default class AppComponent extends React.Component {
                         <Route path="/lights" component={LightsPage} />
                     </div>
                 </Router>
+                <Dialog
+                    actions={dialogActions}
+                    modal={false}
+                    open={this.state.showDialog}
+                    onRequestClose={this.handleDialogClose}>
+                    Delete your account?
+                </Dialog>
             </div>
         );
     }
