@@ -7,7 +7,10 @@ async function logEvent(payload) {
     await collection.insertOne(assign({}, payload, { time: Date.now() }));
 }
 
+/* eslint-disable object-shorthand */
 module.exports = {
-    logGetAllRooms: id => logEvent({ type: 'GET_ALL_ROOMS', user: id }),
+    logGetAllRooms: user => logEvent({ type: 'GET_ALL_ROOMS', user }),
+    logGetRoomLights: (user, room) => logEvent({ type: 'GET_ROOM_LIGHTS', user, room }),
     logError: e => logEvent({ type: 'SERVER_ERROR', error: JSON.stringify(e) })
 };
+/* eslint-enable object-shorthand */
