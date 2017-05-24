@@ -1,6 +1,13 @@
 const request = require('request-promise');
 
-const { logError, logGetAllRooms, logGetRoomLights } = require('./events');
+const {
+    logError,
+    logGetAllRooms,
+    logGetRoomLights,
+    logSetRoomLights,
+    logGetOneLight,
+    logSetOneLight
+} = require('./events');
 
 async function getStatus(req, res) {
     try {
@@ -67,6 +74,7 @@ async function setRoomLights(req, res) {
         });
 
         res.json(response);
+        logSetRoomLights(res.locals.user._id, req.params.id, req.body); // eslint-disable-line no-underscore-dangle
     }
     catch (e) {
         res.status(500).json(e);
@@ -85,6 +93,7 @@ async function getOneLight(req, res) {
         });
 
         res.json(response);
+        logGetOneLight(res.locals.user._id, req.params.id); // eslint-disable-line no-underscore-dangle
     }
     catch (e) {
         res.status(500).json(e);
@@ -105,6 +114,7 @@ async function setOneLight(req, res) {
         });
 
         res.json(response);
+        logSetOneLight(res.locals.user._id, req.params.id, req.body); // eslint-disable-line no-underscore-dangle
     }
     catch (e) {
         res.status(500).json(e);
