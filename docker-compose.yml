@@ -1,12 +1,12 @@
 version: '3'
 services:
-    app:
-        build: .
-        ports:
-            - "3030:8080"
-        restart: unless-stopped
-    db:
-        image: mongo
-        ports:
-            - "27017:27017"
-        restart: unless-stopped
+  app:
+    build: .
+    ports:
+      - '3030:8080'
+    restart: unless-stopped
+  db:
+    image: mongo
+    ports:
+      - '27017:27017'
+    restart: unless-stopped

@@ -6,14 +6,11 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppComponent from './components/AppComponent';
 
 const App = () => (
-    <MuiThemeProvider>
-        <AppComponent />
-    </MuiThemeProvider>
+  <MuiThemeProvider>
+    <AppComponent />
+  </MuiThemeProvider>
 );
 
 injectTapEventPlugin();
 
-ReactDOM.render(
-    <App />,
-    document.querySelector('#app')
-);
+ReactDOM.render(<App />, document.querySelector('#app'));

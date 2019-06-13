@@ -8,26 +8,41 @@ import rootSaga from './sagas';
 const sagaMiddleware = createSagaMiddleware();
 const composeEnhancers = composeWithDevTools({});
 
-const appStore = createStore(appReducer, composeEnhancers(applyMiddleware(sagaMiddleware)));
+const appStore = createStore(
+  appReducer,
+  composeEnhancers(applyMiddleware(sagaMiddleware))
+);
 
 const actions = {
-    setUser: user => appStore.dispatch({ type: 'SET_USER', data: user.toLowerCase() }),
-    loginUser: () => appStore.dispatch({ type: 'LOGIN_REQUESTED', data: appStore.getState().user }),
-    registerUser: () => appStore.dispatch({ type: 'REGISTRATION_REQUESTED', data: appStore.getState().user }),
-    logoutUser: () => appStore.dispatch({ type: 'LOGOUT_USER' }),
-    deleteAccount: (...args) => appStore.dispatch({ type: 'DELETE_ACCOUNT_REQUESTED', data: args }),
-    setMessage: msg => appStore.dispatch({ type: 'SET_MESSAGE', data: msg }),
-    clearMessage: () => appStore.dispatch({ type: 'SET_MESSAGE', data: '' }),
-    getRooms: apiKey => appStore.dispatch({ type: 'GET_ROOMS_REQUESTED', data: apiKey }),
-    getOneRoom: (...args) => appStore.dispatch({ type: 'GET_ONE_ROOM_REQUESTED', data: args }),
-    setOneRoom: (...args) => appStore.dispatch({ type: 'SET_ONE_ROOM_REQUESTED', data: args }),
-    getLightStates: (...args) => appStore.dispatch({ type: 'GET_LIGHTS_REQUESTED', data: args }),
-    setLightState: (...args) => appStore.dispatch({ type: 'SET_LIGHT_REQUESTED', data: args })
+  setUser: user =>
+    appStore.dispatch({ type: 'SET_USER', data: user.toLowerCase() }),
+  loginUser: () =>
+    appStore.dispatch({
+      type: 'LOGIN_REQUESTED',
+      data: appStore.getState().user
+    }),
+  registerUser: () =>
+    appStore.dispatch({
+      type: 'REGISTRATION_REQUESTED',
+      data: appStore.getState().user
+    }),
+  logoutUser: () => appStore.dispatch({ type: 'LOGOUT_USER' }),
+  deleteAccount: (...args) =>
+    appStore.dispatch({ type: 'DELETE_ACCOUNT_REQUESTED', data: args }),
+  setMessage: msg => appStore.dispatch({ type: 'SET_MESSAGE', data: msg }),
+  clearMessage: () => appStore.dispatch({ type: 'SET_MESSAGE', data: '' }),
+  getRooms: apiKey =>
+    appStore.dispatch({ type: 'GET_ROOMS_REQUESTED', data: apiKey }),
+  getOneRoom: (...args) =>
+    appStore.dispatch({ type: 'GET_ONE_ROOM_REQUESTED', data: args }),
+  setOneRoom: (...args) =>
+    appStore.dispatch({ type: 'SET_ONE_ROOM_REQUESTED', data: args }),
+  getLightStates: (...args) =>
+    appStore.dispatch({ type: 'GET_LIGHTS_REQUESTED', data: args }),
+  setLightState: (...args) =>
+    appStore.dispatch({ type: 'SET_LIGHT_REQUESTED', data: args })
 };
 
 sagaMiddleware.run(rootSaga);
 
-export {
-    appStore,
-    actions
-};
+export { appStore, actions };
