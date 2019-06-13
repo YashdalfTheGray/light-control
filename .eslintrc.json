@@ -1,32 +1,41 @@
 {
-    "parser": "babel-eslint",
-    "extends": "airbnb",
-    "plugins": [
-        "react",
-        "jsx-a11y",
-        "import"
-    ],
-    "env": {
-        "browser": true,
-        "node": true,
-        "commonjs": true,
-        "es6": true
-    },
-    "rules": {
-        "brace-style": ["error", "stroustrup"],
-        "class-methods-use-this": ["off"],
-        "comma-dangle": ["error", "never"],
-        "indent": ["error", 4],
-        "linebreak-style": ["off"],
-        "max-len": ["warn", 120],
-        "no-console": ["off"],
-        "no-param-reassign": ["error", { "props": true, "ignorePropertyModificationsFor": ["res"] }],
-        "object-shorthand": ["error", "consistent-as-needed"],
-        "react/forbid-prop-types": ["off"],
-        "react/jsx-closing-bracket-location": ["off"],
-        "react/jsx-indent": ["error", 4],
-        "react/jsx-indent-props": ["error", 4],
-        "react/jsx-no-bind": ["off"],
-        "react/jsx-wrap-multilines": ["error", { "declaration": false, "assignment": false, "return": true, "arrow": true }]
-    }
+  "parser": "babel-eslint",
+  "extends": "airbnb",
+  "plugins": [
+    "react",
+    "jsx-a11y",
+    "import"
+  ],
+  "env": {
+    "browser": true,
+    "node": true,
+    "commonjs": true,
+    "es6": true
+  },
+  "rules": {
+    "class-methods-use-this": ["off"],
+    "comma-dangle": ["error", "never"],
+    "indent": ["error", 2, {
+      "SwitchCase": 1
+    }],
+    "linebreak-style": ["off"],
+    "max-len": ["warn", 120],
+    "no-console": ["off"],
+    "no-param-reassign": ["error", {
+      "props": true,
+      "ignorePropertyModificationsFor": ["res"]
+    }],
+    "object-shorthand": ["error", "consistent-as-needed"],
+    "react/forbid-prop-types": ["off"],
+    "react/jsx-closing-bracket-location": ["off"],
+    "react/jsx-indent": ["error", 2],
+    "react/jsx-indent-props": ["error", 2],
+    "react/jsx-no-bind": ["off"],
+    "react/jsx-wrap-multilines": ["error", {
+      "declaration": false,
+      "assignment": false,
+      "return": true,
+      "arrow": true
+    }]
+  }
 }
