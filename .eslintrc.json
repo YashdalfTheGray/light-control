@@ -1,6 +1,6 @@
 {
   "parser": "babel-eslint",
-  "extends": "airbnb",
+  "extends": ["airbnb", "prettier"],
   "plugins": [
     "react",
     "jsx-a11y",
@@ -13,6 +13,7 @@
     "es6": true
   },
   "rules": {
+    "arrow-parens": ["off"],
     "class-methods-use-this": ["off"],
     "comma-dangle": ["error", "never"],
     "indent": ["error", 2, {
