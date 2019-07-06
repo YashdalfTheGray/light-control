@@ -1,13 +1,16 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import { grey400, grey900 } from 'material-ui/styles/colors';
-import IconButton from 'material-ui/IconButton';
+import grey from '@material-ui/core/colors/grey';
+import IconButton from '@material-ui/core/IconButton';
 
-const RoomLight = props => (
+const grey400 = grey[400];
+const grey900 = grey[900];
+
+const RoomLight = ({ lightState, toggleState }) => (
   <IconButton
-    iconStyle={{ color: props.lightState ? grey900 : grey400 }}
+    iconStyle={{ color: lightState ? grey900 : grey400 }}
     iconClassName="material-icons"
-    onTouchTap={props.toggleState}>
+    onTouchTap={toggleState}>
     lightbulb_outline
   </IconButton>
 );
