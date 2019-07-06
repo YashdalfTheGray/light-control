@@ -1,8 +1,11 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
-import TextField from 'material-ui/TextField';
-import FlatButton from 'material-ui/FlatButton';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardText from '@material-ui/core/CardContent';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
 import { actions, appStore } from '../store';
 
@@ -15,9 +18,11 @@ export default class LoginPage extends React.Component {
     super(props);
 
     this.unsubscribe = appStore.subscribe(() => {
+      const { history } = this.props;
       const { userToken } = appStore.getState();
+
       if (userToken) {
-        this.props.history.push('/lights');
+        history.push('/lights');
       }
     });
   }
@@ -29,7 +34,7 @@ export default class LoginPage extends React.Component {
   render() {
     return (
       <Card style={{ margin: '16px' }}>
-        <CardTitle title="Login" />
+        <CardHeader title="Login" />
         <CardText>
           <TextField
             floatingLabelText="Name"
@@ -38,8 +43,8 @@ export default class LoginPage extends React.Component {
           />
         </CardText>
         <CardActions>
-          <FlatButton label="Register" onTouchTap={actions.registerUser} />
-          <FlatButton label="Login" primary onTouchTap={actions.loginUser} />
+          <Button label="Register" onTouchTap={actions.registerUser} />
+          <Button label="Login" primary onTouchTap={actions.loginUser} />
         </CardActions>
       </Card>
     );
