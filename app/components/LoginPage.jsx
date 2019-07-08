@@ -43,8 +43,8 @@ export default class LoginPage extends React.Component {
           />
         </CardText>
         <CardActions>
-          <Button label="Register" onTouchTap={actions.registerUser} />
-          <Button label="Login" primary onTouchTap={actions.loginUser} />
+          <Button label="Register" onClick={actions.registerUser} />
+          <Button label="Login" primary onClick={actions.loginUser} />
         </CardActions>
       </Card>
     );

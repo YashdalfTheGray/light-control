@@ -74,12 +74,12 @@ export default class AppComponent extends React.Component {
       <Button
         primary
         label="Cancel"
-        onTouchTap={() => this.handleDialogClose(false)}
+        onClick={() => this.handleDialogClose(false)}
       />,
       <Button
         primary
         label="Delete"
-        onTouchTap={() => this.handleDialogClose(true)}
+        onClick={() => this.handleDialogClose(true)}
       />
     ];
 
@@ -123,9 +123,9 @@ export default class AppComponent extends React.Component {
           onClose={this.handleMenuClose}>
           <MenuItem
             primaryText="Delete Account"
-            onTouchTap={this.handleDialogOpen}
+            onClick={this.handleDialogOpen}
           />
-          <MenuItem primaryText="Logout" onTouchTap={actions.logoutUser} />
+          <MenuItem primaryText="Logout" onClick={actions.logoutUser} />
         </Menu>
       </div>
     );

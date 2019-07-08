@@ -99,8 +99,8 @@ export default class Room extends React.Component {
           ))}
         </CardText>
         <CardActions>
-          <Button label="All Off" onTouchTap={this.turnLightsOff} />
-          <Button label="All On" primary onTouchTap={this.turnLightsOn} />
+          <Button label="All Off" onClick={this.turnLightsOff} />
+          <Button label="All On" primary onClick={this.turnLightsOn} />
         </CardActions>
       </Card>
     );

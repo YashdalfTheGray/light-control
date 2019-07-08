@@ -10,7 +10,7 @@ const RoomLight = ({ lightState, toggleState }) => (
   <IconButton
     iconStyle={{ color: lightState ? grey900 : grey400 }}
     iconClassName="material-icons"
-    onTouchTap={toggleState}>
+    onClick={toggleState}>
     lightbulb_outline
   </IconButton>
 );
