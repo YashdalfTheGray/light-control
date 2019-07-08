@@ -53,7 +53,9 @@ export default class LightsPage extends React.Component {
       <div
         className="list"
         style={{ margin: '16px' }}
-        ref={c => (this.component = c)}>
+        ref={c => {
+          this.component = c;
+        }}>
         {roomsToDisplay}
       </div>
     );
