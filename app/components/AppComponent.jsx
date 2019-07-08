@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import AppBar from 'material-ui/AppBar';
-import IconButton from 'material-ui/IconButton';
-import IconMenu from 'material-ui/IconMenu';
-import MenuItem from 'material-ui/MenuItem';
-import Snackbar from 'material-ui/Snackbar';
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
+import AppBar from '@material-ui/core/AppBar';
+import IconButton from '@material-ui/core/IconButton';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Snackbar from '@material-ui/core/Snackbar';
+import Dialog from '@material-ui/core/Dialog';
+import Button from '@material-ui/core/Button';
+import MoreVert from '@material-ui/icons/MoreVert';
 
 import LoginPage from './LoginPage';
 import LightsPage from './LightsPage';
@@ -19,7 +20,8 @@ export default class AppComponent extends React.Component {
     this.state = {
       showMenu: false,
       showSnackbar: false,
-      showDialog: false
+      showDialog: false,
+      menuAnchor: null
     };
 
     this.unsubscribe = appStore.subscribe(() => {
@@ -56,37 +58,25 @@ export default class AppComponent extends React.Component {
     this.setState({ showDialog: false });
   }
 
+  handleMenuOpen(event) {
+    this.setState({ menuAnchor: event.currentTarget });
+  }
+
+  handleMenuClose() {
+    this.setState({ menuAnchor: null });
+  }
+
   render() {
-    const { showMenu, showSnackbar } = this.state;
+    const { showMenu, showSnackbar, showDialog, menuAnchor } = this.state;
     const { snackbarMessage } = appStore.getState();
 
-    const moreButton = (
-      <IconButton iconClassName="material-icons" tooltip="More">
-        more_vert
-      </IconButton>
-    );
-
-    const moreMenu = (
-      <IconMenu
-        iconButtonElement={moreButton}
-        onItemTouchTap={this.handleMenuChange}
-        targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-        anchorOrigin={{ horizontal: 'right', vertical: 'top' }}>
-        <MenuItem
-          primaryText="Delete Account"
-          onTouchTap={this.handleDialogOpen}
-        />
-        <MenuItem primaryText="Logout" onTouchTap={actions.logoutUser} />
-      </IconMenu>
-    );
-
     const dialogActions = [
-      <FlatButton
+      <Button
         primary
         label="Cancel"
         onTouchTap={() => this.handleDialogClose(false)}
       />,
-      <FlatButton
+      <Button
         primary
         label="Delete"
         onTouchTap={() => this.handleDialogClose(true)}
@@ -97,7 +87,13 @@ export default class AppComponent extends React.Component {
       <div>
         <AppBar
           title="Light Control"
-          iconElementRight={showMenu ? moreMenu : null}
+          iconElementRight={
+            showMenu ? (
+              <IconButton aria-label="More" onClick={this.handleMenuOpen}>
+                <MoreVert />
+              </IconButton>
+            ) : null
+          }
           showMenuIconButton={false}
         />
         <Snackbar
@@ -115,10 +111,22 @@ export default class AppComponent extends React.Component {
         <Dialog
           actions={dialogActions}
           modal={false}
-          open={this.state.showDialog}
+          open={showDialog}
           onRequestClose={this.handleDialogClose}>
           Delete your account?
         </Dialog>
+        <Menu
+          id="simple-menu"
+          anchorEl={menuAnchor}
+          keepMounted
+          open={Boolean(menuAnchor)}
+          onClose={this.handleMenuClose}>
+          <MenuItem
+            primaryText="Delete Account"
+            onTouchTap={this.handleDialogOpen}
+          />
+          <MenuItem primaryText="Logout" onTouchTap={actions.logoutUser} />
+        </Menu>
       </div>
     );
   }
