@@ -1,7 +1,10 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardText from '@material-ui/core/CardContent';
+import Button from '@material-ui/core/Button';
 
 import { appStore, actions } from '../store';
 import RoomLight from './RoomLight';
@@ -34,10 +37,9 @@ export default class Room extends React.Component {
   }
 
   componentWillMount() {
-    actions.getLightStates(
-      appStore.getState().userToken,
-      ...this.props.lightIds
-    );
+    const { lightIds } = this.props;
+
+    actions.getLightStates(appStore.getState().userToken, ...lightIds);
   }
 
   componentWillUnmount() {
@@ -51,43 +53,54 @@ export default class Room extends React.Component {
   }
 
   changeOneLight(id) {
+    const { lights } = this.state;
+
     actions.setLightState(appStore.getState().userToken, id, {
-      on: !this.state.lights[id]
+      on: !lights[id]
     });
   }
 
   turnLightsOn() {
-    actions.setOneRoom(appStore.getState().userToken, this.props.id, {
+    const { id } = this.props;
+
+    actions.setOneRoom(appStore.getState().userToken, id, {
       on: true
     });
   }
 
   turnLightsOff() {
-    actions.setOneRoom(appStore.getState().userToken, this.props.id, {
+    const { id } = this.props;
+
+    actions.setOneRoom(appStore.getState().userToken, id, {
       on: false
     });
   }
 
   render() {
+    const { expanded, lights } = this.state;
+    const { lightIds, name } = this.props;
+
     return (
       <Card
-        expanded={this.state.expanded}
+        expanded={expanded}
         initiallyExpanded={false}
         onExpandChange={this.handleExpandChange}
-        ref={c => (this.component = c)}>
-        <CardTitle showExpandableButton title={this.props.name} />
+        ref={c => {
+          this.component = c;
+        }}>
+        <CardHeader showExpandableButton title={name} />
         <CardText expandable>
-          {this.props.lightIds.map(id => (
+          {lightIds.map(id => (
             <RoomLight
               key={id}
-              lightState={this.state.lights[id] || false}
+              lightState={lights[id] || false}
               toggleState={this.changeOneLight.bind(this, id)}
             />
           ))}
         </CardText>
         <CardActions>
-          <FlatButton label="All Off" onTouchTap={this.turnLightsOff} />
-          <FlatButton label="All On" primary onTouchTap={this.turnLightsOn} />
+          <Button label="All Off" onTouchTap={this.turnLightsOff} />
+          <Button label="All On" primary onTouchTap={this.turnLightsOn} />
         </CardActions>
       </Card>
     );
