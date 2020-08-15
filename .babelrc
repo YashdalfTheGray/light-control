@@ -1,4 +1,22 @@
 {
-    "presets": ["react", "es2017"],
-    "plugins": ["transform-object-rest-spread", "transform-class-properties"]
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "browsers": ["last 2 versions"]
+        },
+        "useBuiltIns": "usage",
+        "corejs": {
+          "version": "3.6",
+          "shippedProposals": true
+        }
+      }
+    ],
+    ["@babel/preset-react"]
+  ],
+  "plugins": [
+    "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-proposal-object-rest-spread"
+  ]
 }
