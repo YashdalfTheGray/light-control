@@ -1,11 +1,7 @@
 {
   "parser": "babel-eslint",
   "extends": ["airbnb", "prettier"],
-  "plugins": [
-    "react",
-    "jsx-a11y",
-    "import"
-  ],
+  "plugins": ["react", "jsx-a11y", "import"],
   "env": {
     "browser": true,
     "node": true,
@@ -15,28 +11,37 @@
   "rules": {
     "arrow-parens": ["off"],
     "class-methods-use-this": ["off"],
-    "comma-dangle": ["error", "never"],
-    "indent": ["error", 2, {
-      "SwitchCase": 1
-    }],
+    "indent": [
+      "error",
+      2,
+      {
+        "SwitchCase": 1
+      }
+    ],
     "linebreak-style": ["off"],
     "max-len": ["warn", 120],
     "no-console": ["off"],
-    "no-param-reassign": ["error", {
-      "props": true,
-      "ignorePropertyModificationsFor": ["res"]
-    }],
+    "no-param-reassign": [
+      "error",
+      {
+        "props": true,
+        "ignorePropertyModificationsFor": ["res"]
+      }
+    ],
     "object-shorthand": ["error", "consistent-as-needed"],
     "react/forbid-prop-types": ["off"],
     "react/jsx-closing-bracket-location": ["off"],
     "react/jsx-indent": ["error", 2],
     "react/jsx-indent-props": ["error", 2],
     "react/jsx-no-bind": ["off"],
-    "react/jsx-wrap-multilines": ["error", {
-      "declaration": false,
-      "assignment": false,
-      "return": true,
-      "arrow": true
-    }]
+    "react/jsx-wrap-multilines": [
+      "error",
+      {
+        "declaration": false,
+        "assignment": false,
+        "return": true,
+        "arrow": true
+      }
+    ]
   }
 }
