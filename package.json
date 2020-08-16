@@ -4,8 +4,13 @@
   "description": "React app that controls lights in the house",
   "main": "server/index.js",
   "scripts": {
-    "build": "webpack",
-    "start": "node server/index.js",
+    "build:dev": "webpack --mode=development --progress",
+    "build:watch": "webpack --mode=development --watch --progress",
+    "build:prod": "webpack --mode=production",
+    "build": "npm run build:dev",
+    "server:dev": "NODE_ENV=development node server/index.js",
+    "server:prod": "NODE_ENV=production node server/index.js",
+    "start": "npm run server:dev",
     "linter": "eslint app/**/*.js app/**/*.jsx server/**/*.js webpack.*.js"
   },
   "repository": {

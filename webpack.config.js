@@ -1,8 +1,10 @@
 const { resolve } = require('path');
 
-module.exports = {
-  entry: ['./index'],
-  context: resolve('app'),
+// const isDev = (mode) => mode === 'development';
+// const isProd = (mode) => mode === 'production';
+
+module.exports = (_, argv) => ({
+  entry: ['core-js/stable', 'regenerator-runtime', './app/index'],
   output: {
     filename: 'bundle.js',
     path: resolve('public')
@@ -11,6 +13,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx']
   },
+  mode: argv.mode,
   module: {
     rules: [
       {
@@ -23,4 +26,4 @@ module.exports = {
   stats: {
     colors: true
   }
-};
+});
