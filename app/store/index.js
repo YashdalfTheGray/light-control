@@ -14,7 +14,7 @@ const appStore = createStore(
 );
 
 const actions = {
-  setUser: user =>
+  setUser: (user) =>
     appStore.dispatch({ type: 'SET_USER', data: user.toLowerCase() }),
   loginUser: () =>
     appStore.dispatch({
@@ -29,9 +29,9 @@ const actions = {
   logoutUser: () => appStore.dispatch({ type: 'LOGOUT_USER' }),
   deleteAccount: (...args) =>
     appStore.dispatch({ type: 'DELETE_ACCOUNT_REQUESTED', data: args }),
-  setMessage: msg => appStore.dispatch({ type: 'SET_MESSAGE', data: msg }),
+  setMessage: (msg) => appStore.dispatch({ type: 'SET_MESSAGE', data: msg }),
   clearMessage: () => appStore.dispatch({ type: 'SET_MESSAGE', data: '' }),
-  getRooms: apiKey =>
+  getRooms: (apiKey) =>
     appStore.dispatch({ type: 'GET_ROOMS_REQUESTED', data: apiKey }),
   getOneRoom: (...args) =>
     appStore.dispatch({ type: 'GET_ONE_ROOM_REQUESTED', data: args }),

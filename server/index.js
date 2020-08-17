@@ -20,7 +20,7 @@ const {
 } = require('./hue');
 
 const port = process.env.PORT || process.argv[2] || 8080;
-const wrap = fn => (...args) => fn(...args).catch(args[2]);
+const wrap = (fn) => (...args) => fn(...args).catch(args[2]);
 
 const app = express();
 const apiRouter = express.Router();

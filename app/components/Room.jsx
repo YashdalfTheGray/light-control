@@ -85,12 +85,12 @@ export default class Room extends React.Component {
         expanded={expanded}
         initiallyExpanded={false}
         onExpandChange={this.handleExpandChange}
-        ref={c => {
+        ref={(c) => {
           this.component = c;
         }}>
         <CardHeader showExpandableButton title={name} />
         <CardText expandable>
-          {lightIds.map(id => (
+          {lightIds.map((id) => (
             <RoomLight
               key={id}
               lightState={lights[id] || false}

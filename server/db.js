@@ -4,7 +4,7 @@ const { find, remove } = require('lodash');
 const dbs = [];
 
 async function getDb(url) {
-  const db = find(dbs, v => v.url === url);
+  const db = find(dbs, (v) => v.url === url);
   if (!db) {
     const dbListing = { url };
     dbListing.ref = await MongoClient.connect(url);
@@ -15,7 +15,9 @@ async function getDb(url) {
 }
 
 async function closeDb(url) {
-  return Promise.all(remove(dbs, v => v.url === url).map(db => db.ref.close()));
+  return Promise.all(
+    remove(dbs, (v) => v.url === url).map((db) => db.ref.close())
+  );
 }
 
 module.exports = {

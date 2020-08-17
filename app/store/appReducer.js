@@ -9,10 +9,10 @@ const initialState = {
 };
 
 function appReducer(state = initialState, { type, data }) {
-  const assignState = changes =>
+  const assignState = (changes) =>
     assign({}, state, { snackbarMessage: '' }, changes);
-  const mergeAndReplaceRoom = room =>
-    [...state.rooms.filter(r => r.id !== room.id), room].sort(
+  const mergeAndReplaceRoom = (room) =>
+    [...state.rooms.filter((r) => r.id !== room.id), room].sort(
       (a, b) => a.id - b.id
     );
 
