@@ -42,6 +42,12 @@
         "return": true,
         "arrow": true
       }
+    ],
+    "react/static-property-placement": [
+      "error",
+      {
+        "propTypes": "static public field"
+      }
     ]
   }
 }
