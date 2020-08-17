@@ -46,14 +46,14 @@ export default class LightsPage extends React.Component {
         </span>
       );
     } else {
-      roomsToDisplay = rooms.map(r => <Room key={r.id} {...r} />);
+      roomsToDisplay = rooms.map((r) => <Room key={r.id} {...r} />);
     }
 
     return (
       <div
         className="list"
         style={{ margin: '16px' }}
-        ref={c => {
+        ref={(c) => {
           this.component = c;
         }}>
         {roomsToDisplay}

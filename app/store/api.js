@@ -93,7 +93,7 @@ async function getOneLightState(userToken, id) {
 
 export async function getLightStates(userToken, ...lightIds) {
   const lightStates = await Promise.all(
-    lightIds.map(i => getOneLightState(userToken, i))
+    lightIds.map((i) => getOneLightState(userToken, i))
   );
   return lightStates.reduce((acc, light) => ({ ...acc, ...light }), {});
 }
