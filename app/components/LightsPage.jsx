@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Redirect } from 'react-router-dom';
 
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 import { appStore, actions } from '../store';
 import Room from './Room';
 
@@ -9,18 +11,19 @@ export default class LightsPage extends React.Component {
     super(props);
 
     this.state = {
-      rooms: []
+      rooms: [],
+      loaded: false
     };
 
     this.unsubscribe = appStore.subscribe(() => {
       const { rooms } = appStore.getState();
       if (this.component) {
-        this.setState({ rooms });
+        this.setState({ rooms, loaded: true });
       }
     });
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { userToken } = appStore.getState();
     if (userToken) {
       actions.getRooms(userToken);
@@ -32,7 +35,7 @@ export default class LightsPage extends React.Component {
   }
 
   render() {
-    const { rooms } = this.state;
+    const { rooms, loaded } = this.state;
     let roomsToDisplay;
 
     if (!appStore.getState().userToken) {
@@ -50,14 +53,20 @@ export default class LightsPage extends React.Component {
     }
 
     return (
-      <div
-        className="list"
-        style={{ margin: '16px' }}
-        ref={(c) => {
-          this.component = c;
-        }}>
-        {roomsToDisplay}
-      </div>
+      <>
+        {loaded ? (
+          <div
+            className="list"
+            style={{ margin: '16px' }}
+            ref={(c) => {
+              this.component = c;
+            }}>
+            {roomsToDisplay}
+          </div>
+        ) : (
+          <CircularProgress />
+        )}
+      </>
     );
   }
 }
