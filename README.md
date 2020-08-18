@@ -12,7 +12,7 @@ This application depends on the [`hue-remote`](https://github.com/YashdalfTheGra
 
 ## Running the app
 
-The first thing necessary is to create a `.env` file using the example. A copy of it can be created using `cp .env.example .env`.
+The first thing necessary is to create a `.env` file using the example. A copy of it can be created using `cp .env.example .env`. You also need a JWT token and an issuer name and expiration time.
 
 Run the app using `docker-compose up -d`. This will start the entire service in the background. The compose file is automatically configured to restart the services.
 
