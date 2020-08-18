@@ -6,6 +6,10 @@ React app that controls lights in the house
 
 Clone the repository locally. The only two requirements are Docker Engine and Docker Compose.
 
+## Setup
+
+This application depends on the [`hue-remote`](https://github.com/YashdalfTheGray/hue-remote) project to work. Once that is set up, you're going to want a URL and the token that you're using.
+
 ## Running the app
 
 The first thing necessary is to create a `.env` file using the example. A copy of it can be created using `cp .env.example .env`.
