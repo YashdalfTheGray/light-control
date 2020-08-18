@@ -8,6 +8,8 @@ Clone the repository locally. The only two requirements are Docker Engine and Do
 
 ## Running the app
 
+The first thing necessary is to create a `.env` file using the example. A copy of it can be created using `cp .env.example .env`.
+
 Run the app using `docker-compose up -d`. This will start the entire service in the background. The compose file is automatically configured to restart the services.
 
 ## Development
